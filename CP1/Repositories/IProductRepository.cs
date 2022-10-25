@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CP1.Models;
 
@@ -24,17 +26,18 @@ public interface IProductRepository {
 
     List<Product> FindByDateBefore(DateTime date);
 
+    List<Product> FindByNameLike(string name);
 
     // declara métodos para trabajar con objectos Product
     /**
     - * Encontrar producto por id (FindById)
     - * Encontrar todos los productos (FindAll)
     - * Encontrar productos por rango de precios
-
-    * Encontrar productos por fecha de creación anterior a la fecha pasada por parámetro
+    - * Encontrar productos por fecha de creación anterior a la fecha pasada por parámetro
+     
+    ~ * Encontrar productos por nombre de fabricante
     
-     * Encontrar productos por nombre de fabricante
-    * Guardar nuevo producto en la lista. 
+     * Guardar nuevo producto en la lista. 
     * **Opción 1 para generar ID**: El id no se le enviará dentro del objeto, se tiene que autogenerar. Para ello, la clase que implemente la interfaz tendrá un atributo NextProductId que inicialmente valdrá 1 y que cada vez que se agregue un producto nuevo se incrementará en 1. De esta forma cada vez que se agrega un nuevo producto se utiliza el id y después se incrementa. Esta variable no se decrementará en ningún momento, no se podrá consultar ni modificar desde fuera de la clase.
     * **Opción 2 para generar el ID**: crear un método FindMaxId que encuentre el id máximo de los productos, entonces usamos ese id + 1 como nuevo id para el nuevo producto.
     * Actualizar un producto existente: se actualizan todos los atributos menos el id y el fabricante

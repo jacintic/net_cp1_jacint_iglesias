@@ -28,6 +28,10 @@ Console.WriteLine(productListRepository.PrintList(productListRepository.FindByPr
 Console.WriteLine("\n\n===== FindByDateBefore(DateTime.Now) =====");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByDateBefore(DateTime.Now)));
 
+// filter by name LIKE
+Console.WriteLine("\n\n===== FindByNameLike('asus') =====");
+Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("asus")));
+
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo
 

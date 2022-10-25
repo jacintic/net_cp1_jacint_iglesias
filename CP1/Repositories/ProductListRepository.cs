@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Authentication;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -173,10 +174,47 @@ public Product FindById(int id)
         }
         catch (Exception e)
         {
-            Console.WriteLine("Exception Type: " + e.GetType());
+            Console.WriteLine("ERROR: unexpected Exception");
             Console.WriteLine(e.Message);
         }
         return filtered;
+    }
+
+    public List<Product> FindByNameLike(string name)
+    {
+        // Handle empty list
+        try
+        {
+            if (products.Count == 0)
+                throw new InvalidOperationException("Lists is empty, can't find element.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle errors during the regex and list iteration operations
+        try
+        {
+            string pattern = @".*(" + name.ToLower() + ").*";
+            Regex rg = new Regex(pattern);
+            List<Product> productsLike = new List<Product>();
+            products.ForEach(p =>
+            {
+                MatchCollection matchedProducts = rg.Matches(p.Name.ToLower());
+                if (matchedProducts.Count > 0)
+                    productsLike.Add(p);
+            });
+            return productsLike;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR: unexpected Exception");
+            Console.WriteLine(e.Message);
+        }
+        return null;
+        
     }
 
     // utilities

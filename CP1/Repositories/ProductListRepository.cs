@@ -44,7 +44,7 @@ public class ProductListRepository : IProductRepository
         try
         {
             foreach (Product p in products)
-                if (p.Id == id)
+                if (p.GetId() == id)
                     return p;
         }
         catch (Exception e)

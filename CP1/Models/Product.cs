@@ -9,8 +9,8 @@ namespace CP1.Models;
 public class Product
 {
     // Attributes
-    public long Id = 1; // set as private
-    public static int NextProductId = 1; // set as private
+    private long Id = 1;  // set as private
+    private static int NextProductId = 1; // set as private
     internal string Name { get; set; }
     internal double Weight { get; set; }
     internal double Price { get; set; }
@@ -24,13 +24,17 @@ public class Product
     {
         Id = NextProductId++;
     }
+    // Getter & Setters
+    internal long GetId()
+    {
+        return Id;
+    }
     // Methods
     // ToString
     public override string ToString()
     {
         return
             $"Product:\n" +
-            $".Id: {Id} " + // remove from ToString
             $".Name: {Name} " +
             $".Weight: {Weight} " +
             $".Price: {Price} " +

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CP1.Repositories; 
-public class ManufacturerListRepository {
+public class ManufacturerListRepository : IManufacturerRepository{
 
     // implementa métodos para trabajar con objetos Manufacturer
 }

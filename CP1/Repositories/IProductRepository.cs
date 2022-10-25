@@ -8,4 +8,5 @@ namespace CP1.Repositories;
 public interface IProductRepository {
 
     // declara métodos para trabajar con objectos Product
+
 }

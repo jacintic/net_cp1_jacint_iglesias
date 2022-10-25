@@ -14,44 +14,52 @@ namespace CP1.Repositories;
 public class ProductListRepository : IProductRepository
 {
     // Attributes
-    List<Product> products = new List<Product>();
+    private List<Product> products;
 
     // Constructor
     public ProductListRepository()
     {
-        products = new List<Product>
-        {
-            new Product { Name = "MacBook Pro", Price = 16},
-            new Product { Name = "MSI Modern", Price = 32},
-            new Product { Name = "Asus A55A", Price = 8},
-        };
+        products = new List<Product>();
     }
 
-    // Methods
-    public Product FindById(int id)
+    // Getters & Setters
+    public List<Product> Products
     {
-        try
-        {
-            if(products.Count == 0)
-                throw new InvalidOperationException("Lists is empty, can't find element.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine(e.GetType);
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        try
-        {
-            foreach (Product p in products)
-                if (p.GetId() == id)
-                    return p;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Exception Type: " + e.GetType());
-            Console.WriteLine(e.Message);
-        }
+        get => products;
+        set => products = value;
+    }
+public void SetProducts(List<Product> products)
+{
+    this.products = products;
+}
+
+// Methods
+public Product FindById(int id)
+{
+    // Handle empty list
+    try
+    {
+        if (products.Count == 0)
+            throw new InvalidOperationException("Lists is empty, can't find element.");
+    }
+    catch (InvalidOperationException e)
+    {
+        Console.WriteLine("Invalid Operation Exception:");
+        Console.WriteLine(e.Message);
         return null;
     }
+    // Handle error by iterating within list
+    try
+    {
+        foreach (Product p in products)
+            if (p.GetId() == id)
+                return p;
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("Exception Type: " + e.GetType());
+        Console.WriteLine(e.Message);
+    }
+    return null;
+}
 }

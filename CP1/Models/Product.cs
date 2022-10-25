@@ -9,8 +9,8 @@ namespace CP1.Models;
 public class Product
 {
     // Attributes
-    private long Id = 1;  // set as private
-    private static int NextProductId = 1; // set as private
+    private long Id = 1;
+    private static int NextProductId = 1;
     internal string Name { get; set; }
     internal double Weight { get; set; }
     internal double Price { get; set; }
@@ -23,6 +23,7 @@ public class Product
     public Product()
     {
         Id = NextProductId++;
+        CreatedAt = DateTime.Now;
     }
     // Getter & Setters
     internal long GetId()

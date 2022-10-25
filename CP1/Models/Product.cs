@@ -51,7 +51,7 @@ public class Product
         }
         return DateTime.Now;
     }
-    // ToString // test
+    // ToString
     public override string ToString()
     {
         return

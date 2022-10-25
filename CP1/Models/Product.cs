@@ -23,7 +23,7 @@ public class Product
     public Product()
     {
         Id = NextProductId++;
-        CreatedAt = DateTime.Now;
+        CreatedAt = GenerateRandomDate();
     }
     // Getter & Setters
     internal long GetId()
@@ -31,17 +31,37 @@ public class Product
         return Id;
     }
     // Methods
+    public DateTime GenerateRandomDate()
+    {
+        try
+        {
+        DateTime RandomDate;
+        var thTH = new System.Globalization.CultureInfo("es-ES");
+        Random rnd = new Random();
+        int switchKey =  new Random().Next(1, 3);
+        TimeSpan minutesTimespan = new TimeSpan(0, new Random().Next(1,60), 0);
+        if (switchKey > 1)
+            return DateTime.Now.Add(minutesTimespan);
+        return DateTime.Now.Subtract(minutesTimespan);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR: Something went wrong while generating the random DateTime");
+            Console.WriteLine(e.Message);
+        }
+        return DateTime.Now;
+    }
     // ToString
     public override string ToString()
     {
         return
-            $"Product:\n" +
-            $".Name: {Name} " +
-            $".Weight: {Weight} " +
-            $".Price: {Price} " +
-            $".Stock: {Stock} " +
-            $".Cost: {Cost} " +
-            $".CreatedAt: {CreatedAt} " +
-            $"\n{manufacturer} ";
+            $"Product:" +
+            $"\n\t.Name: {Name} " +
+            $"\n\t.Weight: {Weight} " +
+            $"\n\t.Price: {Price} " +
+            $"\n\t.Stock: {Stock} " +
+            $"\n\t.Cost: {Cost} " +
+            $"\n\t.CreatedAt: {CreatedAt} " +
+            $"\n\t{manufacturer} \n";
     }
 }

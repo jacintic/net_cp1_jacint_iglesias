@@ -54,6 +54,7 @@ public Product FindById(int id)
         foreach (Product p in products)
             if (p.GetId() == id)
                 return p;
+            
     }
     catch (Exception e)
     {
@@ -62,4 +63,131 @@ public Product FindById(int id)
     }
     return null;
 }
+
+    public List<Product> FindAll()
+    {
+        // Handle empty list
+        try
+        {
+            if (products.Count == 0)
+                throw new InvalidOperationException("Lists is empty, can't find element.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle error by iterating within list
+        try
+        {
+            return products;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception Type: " + e.GetType());
+            Console.WriteLine(e.Message);
+        }
+        return null;
+    }
+
+    public List<Product> FindByPriceRange(double min, double max)
+    {
+        List<Product> filtered = null;
+        // Handle empty list
+        try
+        {
+            if (products.Count == 0)
+                throw new InvalidOperationException("Lists is empty, can't find element.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle instance of List error
+        try
+        {
+            filtered = new List<Product>();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR: unexpected Exception");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle error by iterating within list
+        try
+        {
+            foreach (Product p in products)
+                if (p.Price >= min && p.Price <= max)
+                    filtered.Add(p);
+            return filtered;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception Type: " + e.GetType());
+            Console.WriteLine(e.Message);
+        }
+        return filtered;
+    }
+
+    
+    public List<Product> FindByDateBefore(DateTime date)
+    {
+        List<Product> filtered = null;
+        // Handle empty list
+        try
+        {
+            if (products.Count == 0)
+                throw new InvalidOperationException("Lists is empty, can't find element.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle instance of List error
+        try
+        {
+            filtered = new List<Product>();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR: unexpected Exception");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle error by iterating within list
+        try
+        {
+            foreach (Product p in products)
+                if (p.CreatedAt < date)
+                    filtered.Add(p);
+            return filtered;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception Type: " + e.GetType());
+            Console.WriteLine(e.Message);
+        }
+        return filtered;
+    }
+
+    // utilities
+    public string PrintAllProducts()
+    {
+        return String.Join(" ", products);
+    }
+
+    public string PrintList(List<Product> list)
+    {
+
+        return "Printing List: \n" + String.Join(" ", list);
+    }
 }

@@ -9,22 +9,29 @@ namespace CP1.Models;
 public class Product
 {
     // Attributes
-    private long Id;
-    private string Name { get; set; }
-    private double Weight { get; set; }
-    private double Price { get; set; }
-    private int Stock { get; set; }
-    private double Cost { get; set; }
-    private DateTime CreatedAt { get; set; }
+    public long Id = 1; // set as private
+    public static int NextProductId = 1; // set as private
+    internal string Name { get; set; }
+    internal double Weight { get; set; }
+    internal double Price { get; set; }
+    internal int Stock { get; set; }
+    internal double Cost { get; set; }
+    internal DateTime CreatedAt { get; set; }
     // Class Associations
-    private Manufacturer manufacturer { get; set; }
+    internal Manufacturer manufacturer { get; set; }
+    // Constructor
+    public Product()
+    {
+        Id = NextProductId++;
+    }
     // Methods
     // ToString
     public override string ToString()
     {
         return
-            $"Product:\n" + 
-            ".Name: {Name} " +
+            $"Product:\n" +
+            $".Id: {Id} " + // remove from ToString
+            $".Name: {Name} " +
             $".Weight: {Weight} " +
             $".Price: {Price} " +
             $".Stock: {Stock} " +

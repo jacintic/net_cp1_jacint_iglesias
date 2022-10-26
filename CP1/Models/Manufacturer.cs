@@ -9,14 +9,20 @@ namespace CP1.Models;
 public class Manufacturer
 {
     // Attributes
-    private long Id;
-    private string Name { get; set; }
+    private long Id = 1;
+    private static int NextManufacturer = 1;
+    internal string Name { get; set; }
+    // Constructor
+    public Manufacturer() 
+    {
+        Id = NextManufacturer++;
+    }
     // Methdos
     // ToString
     public override string ToString()
     {
         return 
             "Manufacturer:\n" +
-            $".Name: {Name}";
+            $"\t .{Name}";
     }
 }

@@ -10,7 +10,7 @@ public class Product
 {
     // Attributes
     private long Id = 1;
-    private static int NextProductId = 1;
+    private static int NextProductId;
     internal string Name { get; set; }
     internal double Weight { get; set; }
     internal double Price { get; set; }
@@ -22,7 +22,7 @@ public class Product
     // Constructor
     public Product()
     {
-        Id = NextProductId++;
+        Id = ++NextProductId;
         CreatedAt = GenerateRandomDate();
     }
     // Getter & Setters

@@ -217,6 +217,42 @@ public Product FindById(int id)
         
     }
 
+    public List<Product> FindByManufacturerNameLike(string manufacturerName)
+    {
+        // Handle empty list
+        try
+        {
+            if (products.Count == 0)
+                throw new InvalidOperationException("Lists is empty, can't find element.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle errors during the regex and list iteration operations
+        try
+        {
+            string pattern = @".*(" + manufacturerName.ToLower() + ").*";
+            Regex rg = new Regex(pattern);
+            List<Product> productsLike = new List<Product>();
+            products.ForEach(p =>
+            {
+                MatchCollection matchedProducts = rg.Matches(p.manufacturer.Name.ToLower());
+                if (matchedProducts.Count > 0)
+                    productsLike.Add(p);
+            });
+            return productsLike;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("ERROR: unexpected Exception");
+            Console.WriteLine(e.Message);
+        }
+        return null;
+    }
+
     // utilities
     public string PrintAllProducts()
     {
@@ -225,7 +261,17 @@ public Product FindById(int id)
 
     public string PrintList(List<Product> list)
     {
-
+        try
+        {
+            if (list.Count == 0)
+                throw new InvalidOperationException("0 Elements. Lists is empty.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
         return "Printing List: \n" + String.Join(" ", list);
     }
 }

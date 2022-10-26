@@ -29,48 +29,48 @@ public class ProductListRepository : IProductRepository
         get => products;
         set => products = value;
     }
-public void SetProducts(List<Product> products)
-{
-    this.products = products;
-}
-
-// Methods
-public Product FindById(int id)
-{
-    // Handle empty list
-    try
+    public void SetProducts(List<Product> products)
     {
-        if (products.Count == 0)
-            throw new InvalidOperationException("Lists is empty, can't find element.");
+        this.products = products;
     }
-    catch (InvalidOperationException e)
+
+    // Methods
+    public Product FindById(int id)
     {
-        Console.WriteLine("Invalid Operation Exception:");
-        Console.WriteLine(e.Message);
+        // Handle empty list
+        try
+        {
+            if (Count() == 0)
+                throw new InvalidOperationException("Lists is empty, can't find element.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return null;
+        }
+        // Handle error by iterating within list
+        try
+        {
+            foreach (Product p in products)
+                if (p.GetId() == id)
+                    return p;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Exception Type: " + e.GetType());
+            Console.WriteLine(e.Message);
+        }
         return null;
     }
-    // Handle error by iterating within list
-    try
-    {
-        foreach (Product p in products)
-            if (p.GetId() == id)
-                return p;
-            
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine("Exception Type: " + e.GetType());
-        Console.WriteLine(e.Message);
-    }
-    return null;
-}
 
     public List<Product> FindAll()
     {
         // Handle empty list
         try
         {
-            if (products.Count == 0)
+            if (Count() == 0)
                 throw new InvalidOperationException("Lists is empty, can't find element.");
         }
         catch (InvalidOperationException e)
@@ -99,7 +99,7 @@ public Product FindById(int id)
         // Handle empty list
         try
         {
-            if (products.Count == 0)
+            if (Count() == 0)
                 throw new InvalidOperationException("Lists is empty, can't find element.");
         }
         catch (InvalidOperationException e)
@@ -123,7 +123,7 @@ public Product FindById(int id)
         try
         {
             foreach (Product p in products)
-                if (p.Price >= min && p.Price <= max)
+                if (p.GetPrice() >= min && p.GetPrice() <= max)
                     filtered.Add(p);
             return filtered;
 
@@ -136,14 +136,14 @@ public Product FindById(int id)
         return filtered;
     }
 
-    
+
     public List<Product> FindByDateBefore(DateTime date)
     {
         List<Product> filtered = null;
         // Handle empty list
         try
         {
-            if (products.Count == 0)
+            if (Count() == 0)
                 throw new InvalidOperationException("Lists is empty, can't find element.");
         }
         catch (InvalidOperationException e)
@@ -185,7 +185,7 @@ public Product FindById(int id)
         // Handle empty list
         try
         {
-            if (products.Count == 0)
+            if (Count() == 0)
                 throw new InvalidOperationException("Lists is empty, can't find element.");
         }
         catch (InvalidOperationException e)
@@ -214,7 +214,7 @@ public Product FindById(int id)
             Console.WriteLine(e.Message);
         }
         return null;
-        
+
     }
 
     public List<Product> FindByManufacturerNameLike(string manufacturerName)
@@ -222,7 +222,7 @@ public Product FindById(int id)
         // Handle empty list
         try
         {
-            if (products.Count == 0)
+            if (Count() == 0)
                 throw new InvalidOperationException("Lists is empty, can't find element.");
         }
         catch (InvalidOperationException e)
@@ -253,7 +253,110 @@ public Product FindById(int id)
         return null;
     }
 
+    public bool Save(Product product, Manufacturer manufacturer)
+    {
+        try
+        {
+            if (AlreadyExists(product, manufacturer))
+                throw new DuplicateWaitObjectException("Duplicate Product. Aborting operation.");
+            if (!Validate(product, manufacturer))
+                throw new InvalidOperationException("Product is not valid.");
+        }
+        catch (DuplicateWaitObjectException e)
+        {
+            Console.WriteLine("Duplicate Wait Object Exception:");
+            Console.WriteLine(e.Message);
+            return false;
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return false;
+        }
+        try
+        {
+            product.manufacturer = manufacturer;
+            products.Add(product);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Unexpected exception when Saving the Product");
+            Console.WriteLine(ex.Message);
+            return false;
+        }
+        return false;
+    }
+
     // utilities
+
+    public bool AlreadyExists(Product product, Manufacturer manufacturer)
+    {
+
+        try
+        {
+            if (Count() == 0)
+                throw new InvalidOperationException("Lists is empty, product can't be duplicate.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return false;
+        }
+        foreach (Product p in products)
+        {
+            if (p.Name.Equals(product.Name))
+                return true;
+        }
+        return false;
+    }
+
+    // main product validation
+    public bool Validate(Product product, Manufacturer manufacturer)
+    {
+        return
+            ValidateName(product.Name) &&
+            //ValidateWeight(product.Weight) &&
+            //ValidatePriceAndCost(product.GetPrice(), product.Cost) &&
+            ValidateCreatedAt(product.CreatedAt) &&
+            ValidateManufacturer(manufacturer);
+    }
+
+    // // -- validate sub-methods
+    public bool ValidateName(string name)
+    {
+        return name != null && name.Length > 3;
+    }
+    public bool ValidateWeight(double weight)
+    {
+        return weight > 0 && weight < 50;
+    }
+    public bool ValidatePriceAndCost(double price, double cost)
+    {
+        return price > 350 && cost > 150 && price > cost;
+    }
+    public bool ValidateCreatedAt(DateTime date)
+    {
+        return date >= DateTime.MinValue && date <= DateTime.MaxValue && date < DateTime.Now.AddDays(1);
+    }
+    // NOTICE: move this method to Manufacturer ReopoList
+    public bool ValidateManufacturer(Manufacturer manufacturer)
+    {
+        return
+            manufacturer.Name != null &&
+            manufacturer.Name.Length != 0 &&
+            manufacturer.Name.Length >= 2 &&
+            manufacturer.Name.Length <= 50;
+    }
+    // // -- end of validatesub- methods
+
+    // Count products list
+    public long Count()
+    {
+        return products.Count();
+    }
     public string PrintAllProducts()
     {
         return String.Join(" ", products);
@@ -263,7 +366,7 @@ public Product FindById(int id)
     {
         try
         {
-            if (list.Count == 0)
+            if (Count() == 0)
                 throw new InvalidOperationException("0 Elements. Lists is empty.");
         }
         catch (InvalidOperationException e)

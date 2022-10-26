@@ -18,17 +18,29 @@ public interface IProductRepository {
     }
     // Abstract Methods
 
+    // * Encontrar producto por id (FindById)
     Product FindById(int id);
 
+    // Encontrar todos los productos (FindAll)
     List<Product> FindAll();
 
+    // Encontrar productos por rango de precios
     List<Product> FindByPriceRange(double min, double max);
 
+    // Encontrar productos por fecha de creación anterior a la fecha pasada por parámetro
     List<Product> FindByDateBefore(DateTime date);
 
+    // Econtrar producto por nombre del producto
     List<Product> FindByNameLike(string name);
 
+    // Encontrar productos por nombre de fabricante
     List<Product> FindByManufacturerNameLike(string manufacturerName);
+
+    // Guardar nuevo producto en la lista. 
+    bool Save(Product product, Manufacturer manufacturer);
+
+    //
+
 
     // declara métodos para trabajar con objectos Product
     /**
@@ -37,11 +49,10 @@ public interface IProductRepository {
     - * Encontrar productos por rango de precios
     - * Encontrar productos por fecha de creación anterior a la fecha pasada por parámetro
     - * Econtrar producto por nombre del producto
-
-    ~ * Encontrar productos por nombre de fabricante
-
+    - * Encontrar productos por nombre de fabricante
     
-     * Guardar nuevo producto en la lista. 
+    - * Guardar nuevo producto en la lista. 
+     
     * **Opción 1 para generar ID**: El id no se le enviará dentro del objeto, se tiene que autogenerar. Para ello, la clase que implemente la interfaz tendrá un atributo NextProductId que inicialmente valdrá 1 y que cada vez que se agregue un producto nuevo se incrementará en 1. De esta forma cada vez que se agrega un nuevo producto se utiliza el id y después se incrementa. Esta variable no se decrementará en ningún momento, no se podrá consultar ni modificar desde fuera de la clase.
     * **Opción 2 para generar el ID**: crear un método FindMaxId que encuentre el id máximo de los productos, entonces usamos ese id + 1 como nuevo id para el nuevo producto.
     * Actualizar un producto existente: se actualizan todos los atributos menos el id y el fabricante

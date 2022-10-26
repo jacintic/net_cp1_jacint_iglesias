@@ -13,7 +13,7 @@ public class Product
     private static int NextProductId;
     internal string Name { get; set; }
     internal double Weight { get; set; }
-    internal double Price { get; set; }
+    private double Price { get; set; }
     internal int Stock { get; set; }
     internal double Cost { get; set; }
     internal DateTime CreatedAt { get; set; }
@@ -29,6 +29,14 @@ public class Product
     internal long GetId()
     {
         return Id;
+    }
+    internal double GetPrice()
+    {
+        return Price;
+    }
+    internal void SetPrice(double price)
+    {
+        Price = price;
     }
     // Methods
     public DateTime GenerateRandomDate()

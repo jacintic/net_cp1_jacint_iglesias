@@ -1,6 +1,7 @@
 ﻿
 using CP1.Repositories;
 using CP1.Models;
+using System.Diagnostics;
 // 1. Crear objetos repositorio
 
 // instance repo
@@ -42,8 +43,31 @@ Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNa
 Console.WriteLine("\n===== FindByNameLike('non existing name') =====");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("non existing name")));
 
+// filter by Manufacturer Name
 Console.WriteLine("\n\n===== FindByManufacturerNameLike('msi') =====");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("msi")));
+
+// save Product in products list
+Console.WriteLine("\n\n===== Save(product, manufacturer) =====");
+Product product1 = new Product { Name = "Asus XF0RCE"};
+product1.SetPrice(1635.75);
+bool result = productListRepository.Save(product1, asus);
+Console.Write(result ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("asus")));
+Console.WriteLine("\n===== Save(duplicate product) =====");
+Product product2 = new Product { Name = "MacBook Pro" };
+product1.SetPrice(2500.35);
+bool result2 = productListRepository.Save(product2, mac);
+Console.Write(result2 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("mac")));
+Console.WriteLine("\n===== Save(invalid product) (name too short 'ab') =====");
+Product product3 = new Product { Name = "ab" };
+product3.SetPrice(2500.35);
+bool result3 = productListRepository.Save(product3, mac);
+Console.Write(result3 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("ab")));
+
+
 
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo
@@ -57,13 +81,26 @@ Console.WriteLine(productListRepository.PrintList(productListRepository.FindByMa
 
 List<Product> GenerateProductList()
 {
+    Product macbook = new Product { Name = "MacBook Pro", manufacturer = mac };
+    macbook.SetPrice(2500.35);
+    Product msiModern = new Product { Name = "MSI Modern", manufacturer = msi };
+    msiModern.SetPrice(1700.85);
+    Product asusA55A = new Product { Name = "Asus A55A", manufacturer = asus };
+    asusA55A.SetPrice(950.75);
+    Product dellPro3000 = new Product { Name = "Dell Pro 300", manufacturer = dell };
+    dellPro3000.SetPrice(1230.65);
+    Product msiGamingPro = new Product { Name = "MSI Gaming Pro", manufacturer = msi };
+    msiGamingPro.SetPrice(1850.85);
+    Product asus305D = new Product { Name = "Asus 305D", manufacturer = asus };
+    asus305D.SetPrice(850);
     return new List<Product>
         {
-            new Product { Name = "MacBook Pro", Price = 2500.35, manufacturer = mac},
-            new Product { Name = "MSI Modern", Price = 1700.85, manufacturer = msi},
-            new Product { Name = "Asus A55A", Price = 950.75, manufacturer = asus},
-            new Product { Name = "Dell Pro 300", Price = 1230.65, manufacturer = dell},
-            new Product { Name = "MSI Gaming Pro", Price = 1850.85, manufacturer = msi},
-            new Product { Name = "Asus 305D", Price = 850, manufacturer = asus},
+        /*new Product { Name = "MacBook Pro", Price = 2500.35, manufacturer = mac}.SetPrice(2500.35),
+        new Product { Name = "MSI Modern", Price = 1700.85, manufacturer = msi},
+        new Product { Name = "Asus A55A", Price = 950.75, manufacturer = asus},
+        new Product { Name = "Dell Pro 300", Price = 1230.65, manufacturer = dell},
+        new Product { Name = "MSI Gaming Pro", Price = 1850.85, manufacturer = msi},
+        new Product { Name = "Asus 305D", Price = 850, manufacturer = asus},*/
+            macbook, msiModern, asusA55A, dellPro3000, msiGamingPro, asus305D
         };
 }

@@ -76,8 +76,13 @@ public interface IProductRepository {
     * Calcular el beneficio bruto teniendo en cuenta precios y cantidades
     * Calcular **beneficio neto** teniendo en cuenta precios y cantidades menos coste
     * Obtener los productos pero con el IVA añadido al precio. El IVA será un número entero que reciba por parámetro (por defecto valdrá 21) y será entre 1 y 100 (validar que no exceda estos rangos, si excede los rangos dejamos el valor por defecto o lanzamos una excepción), que tendremos que convertir a porcentaje (dividir entre 100) antes de usarlo. Cuidado: el precio se modifica para los productos que devolvemos, pero no en la lista original.
-    
-    -- take product validation into its own class
+ 
+
+    --  -- Entender que un Product creado, 
+    --  -- Aun fuera de list, esta en Product.Id
+    --  --  // considerar crear Equals de Product
+
+
 
      * */
 

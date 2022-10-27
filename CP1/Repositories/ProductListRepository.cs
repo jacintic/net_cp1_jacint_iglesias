@@ -55,9 +55,9 @@ public class ProductListRepository : IProductRepository
             foreach (Product p in products)
                 if (p.GetId() == id)
                     return p;
-
+            throw new InvalidOperationException("ERROR: Id not found.");
         }
-        catch (Exception e)
+        catch (InvalidOperationException e)
         {
             Console.WriteLine("Exception Type: " + e.GetType());
             Console.WriteLine(e.Message);
@@ -257,7 +257,7 @@ public class ProductListRepository : IProductRepository
     {
         try
         {
-            if (AlreadyExists(product, manufacturer))
+            if (AlreadyExists(product))
                 throw new DuplicateWaitObjectException("Duplicate Product. Aborting operation.");
             if (!Validate(product, manufacturer))
                 throw new InvalidOperationException("Product is not valid.");
@@ -270,7 +270,7 @@ public class ProductListRepository : IProductRepository
         }
         catch (InvalidOperationException e)
         {
-            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine("Invalid Operation Exception, Save:");
             Console.WriteLine(e.Message);
             return false;
         }
@@ -289,9 +289,50 @@ public class ProductListRepository : IProductRepository
         return false;
     }
 
+    public bool Update(Product product, long id)
+    {
+        try
+        {
+            if (!Validate(product))
+                throw new InvalidOperationException("Product is not valid.");
+            if (!AlreadyExists(id))
+                throw new DuplicateWaitObjectException("Product Doesn't exist yet, can't be updated.");
+        }
+        catch (DuplicateWaitObjectException e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception: Update");
+            Console.WriteLine(e.Message);
+            return false;
+        }
+        try
+        {
+            products.ForEach(p =>
+            {
+                if (p.GetId() == id)
+                {
+                    p.Name = product.Name;
+                    p.SetPrice(product.GetPrice());
+                }
+            });
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Unexpected exception when Updating the Product");
+            Console.WriteLine(ex.Message);
+            return false;
+        }
+        return false;
+    }
+
     // utilities
 
-    public bool AlreadyExists(Product product, Manufacturer manufacturer)
+    public bool AlreadyExists(Product product)
     {
 
         try
@@ -312,6 +353,27 @@ public class ProductListRepository : IProductRepository
         }
         return false;
     }
+    public bool AlreadyExists(long id)
+    {
+
+        try
+        {
+            if (Count() == 0)
+                throw new InvalidOperationException("Lists is empty, product can't be duplicate.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine("Invalid Operation Exception:");
+            Console.WriteLine(e.Message);
+            return false;
+        }
+        foreach (Product p in products)
+        {
+            if (p.GetId() == id)
+                return true;
+        }
+        return false;
+    }
 
     // main product validation
     public bool Validate(Product product, Manufacturer manufacturer)
@@ -322,6 +384,15 @@ public class ProductListRepository : IProductRepository
             //ValidatePriceAndCost(product.GetPrice(), product.Cost) &&
             ValidateCreatedAt(product.CreatedAt) &&
             ValidateManufacturer(manufacturer);
+    }
+
+    public bool Validate(Product product)
+    {
+        return
+            ValidateName(product.Name) &&
+            //ValidateWeight(product.Weight) &&
+            //ValidatePriceAndCost(product.GetPrice(), product.Cost) &&
+            ValidateCreatedAt(product.CreatedAt);
     }
 
     // // -- validate sub-methods
@@ -366,7 +437,7 @@ public class ProductListRepository : IProductRepository
     {
         try
         {
-            if (Count() == 0)
+            if (Count() == 0 || list.Count() == 0)
                 throw new InvalidOperationException("0 Elements. Lists is empty.");
         }
         catch (InvalidOperationException e)

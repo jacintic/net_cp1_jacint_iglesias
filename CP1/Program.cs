@@ -53,21 +53,21 @@ Console.WriteLine("\n\n===== Save(product, manufacturer) =====");
 Product product1 = new Product { Name = "Asus XF0RCE"};
 product1.SetPrice(1635.75);
 bool result = productListRepository.Save(product1, asus);
-Console.Write(result ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(result ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("asus")));
 // fail - duplicate
 Console.WriteLine("\n===== Save(duplicate product) =====");
 Product product2 = new Product { Name = "MacBook Pro" };
 product1.SetPrice(2500.35);
 bool result2 = productListRepository.Save(product2, mac);
-Console.Write(result2 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(result2 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("mac")));
 // fail - invalid product (name too short)
 Console.WriteLine("\n===== Save(invalid product) (name too short 'ab') =====");
 Product product3 = new Product { Name = "ab" };
 product3.SetPrice(2500.35);
 bool result3 = productListRepository.Save(product3, mac);
-Console.Write(result3 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(result3 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("ab")));
 
 
@@ -76,19 +76,26 @@ Console.WriteLine("\n\n===== Update product(product, id) =====");
 Product mac2 = new Product { Name = "Macbook Air Pro X-Gaming" };
 mac2.SetPrice(2750.45);
 bool resUpdate = productListRepository.Update(mac2,1);
-Console.Write(resUpdate ? "Product Update Successfully" : "ERROR: Product couldn't be Updated");
+Console.WriteLine(resUpdate ? "Product Update Successfully" : "ERROR: Product couldn't be Updated");
 Console.WriteLine(productListRepository.FindById(1));
 
 Console.WriteLine("\n===== Update product(wrong id) =====");
 Product mac3 = new Product { Name = "Macbook Air Pro XL" };
 mac2.SetPrice(2750.45);
 bool resUpdate2 = productListRepository.Update(mac3, 730);
-Console.Write(resUpdate2 ? "Product Update Successfully" : "ERROR: Product couldn't be Updated");
+Console.WriteLine(resUpdate2 ? "Product Update Successfully" : "ERROR: Product couldn't be Updated");
 Console.WriteLine(productListRepository.FindById(730));
 
 
-//Console.WriteLine(productListRepository.AlreadyExists(1));
-//Console.WriteLine(productListRepository.FindById(1).GetId() == 1);
+Console.WriteLine("\n\n===== Delete product(id) =====");
+Console.WriteLine(productListRepository.Delete(7) ? "Product Deleted Successfully" : "ERROR: Product couldn't be Deleted");
+Console.WriteLine("Trying to fetch deleted prodcut with ID 7");
+Console.WriteLine(productListRepository.FindById(7));
+
+Console.WriteLine("\n\n===== Delete product(id) (Fail) =====");
+Console.WriteLine(productListRepository.Delete(567567) ? "Product Deleted Successfully" : "ERROR: Product couldn't be Deleted");
+Console.WriteLine("Trying to fetch deleted prodcut with ID 567567");
+Console.WriteLine(productListRepository.FindById(7567567));
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo
 

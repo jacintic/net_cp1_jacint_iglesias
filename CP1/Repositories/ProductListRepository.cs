@@ -38,7 +38,7 @@ public class ProductListRepository : IProductRepository
     }
 
     // Methods
-    public Product FindById(int id)
+    public Product FindById(long id)
     {
         // Handle empty list
         try
@@ -333,7 +333,12 @@ public class ProductListRepository : IProductRepository
         return false;
     }
 
-    // utilities
+    public bool Delete(long id)
+    {
+        return AlreadyExists(id) && products.Remove(FindById(id));
+    }
+
+    // ----- utilities ----- //
 
     public bool AlreadyExists(Product product)
     {

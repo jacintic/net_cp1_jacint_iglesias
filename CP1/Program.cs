@@ -86,16 +86,23 @@ bool resUpdate2 = productListRepository.Update(mac3, 730);
 Console.WriteLine(resUpdate2 ? "Product Update Successfully" : "ERROR: Product couldn't be Updated");
 Console.WriteLine(productListRepository.FindById(730));
 
-
+// Delete a single product by Id, success and fail
 Console.WriteLine("\n\n===== Delete product(id) =====");
 Console.WriteLine(productListRepository.Delete(7) ? "Product Deleted Successfully" : "ERROR: Product couldn't be Deleted");
 Console.WriteLine("Trying to fetch deleted prodcut with ID 7");
 Console.WriteLine(productListRepository.FindById(7));
-
+// fail
 Console.WriteLine("\n\n===== Delete product(id) (Fail) =====");
 Console.WriteLine(productListRepository.Delete(567567) ? "Product Deleted Successfully" : "ERROR: Product couldn't be Deleted");
 Console.WriteLine("Trying to fetch deleted prodcut with ID 567567");
 Console.WriteLine(productListRepository.FindById(7567567));
+
+// Delete All
+Console.WriteLine("\n\n===== Delete All =====");
+Console.WriteLine(productListRepository.DeleteAll() ? "Products Deleted Successfully" : "ERROR: Products couldn't be Deleted");
+Console.WriteLine("Printing all products");
+Console.WriteLine(productListRepository.PrintAllProducts());
+
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo
 

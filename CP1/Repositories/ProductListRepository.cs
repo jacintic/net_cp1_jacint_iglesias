@@ -338,6 +338,12 @@ public class ProductListRepository : IProductRepository
         return AlreadyExists(id) && products.Remove(FindById(id));
     }
 
+    public bool DeleteAll()
+    {
+        products.Clear();
+        return Count() == 0;
+    }
+
     // ----- utilities ----- //
 
     public bool AlreadyExists(Product product)
@@ -361,6 +367,7 @@ public class ProductListRepository : IProductRepository
         }
         return false;
     }
+
     public bool AlreadyExists(long id)
     {
 
@@ -390,6 +397,16 @@ public class ProductListRepository : IProductRepository
     }
     public string PrintAllProducts()
     {
+        try 
+        {
+            if (Count() == 0)
+                throw new InvalidOperationException("List empty. Can't print list");
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return "";
+        }
         return String.Join(" ", products);
     }
 

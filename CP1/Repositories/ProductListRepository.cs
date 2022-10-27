@@ -1,4 +1,5 @@
 ﻿using CP1.Models;
+using POO1;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ public class ProductListRepository : IProductRepository
 {
     // Attributes
     private List<Product> products;
+    private ProductValidaitior ProductValidaitior;
 
     // Constructor
     public ProductListRepository()
     {
         products = new List<Product>();
+        ProductValidaitior = new ProductValidaitior();
     }
 
     // Getters & Setters
@@ -259,7 +262,7 @@ public class ProductListRepository : IProductRepository
         {
             if (AlreadyExists(product))
                 throw new DuplicateWaitObjectException("Duplicate Product. Aborting operation.");
-            if (!Validate(product, manufacturer))
+            if (!ProductValidaitior.Validate(product, manufacturer))
                 throw new InvalidOperationException("Product is not valid.");
         }
         catch (DuplicateWaitObjectException e)
@@ -293,7 +296,7 @@ public class ProductListRepository : IProductRepository
     {
         try
         {
-            if (!Validate(product))
+            if (!ProductValidaitior.Validate(product))
                 throw new InvalidOperationException("Product is not valid.");
             if (!AlreadyExists(id))
                 throw new DuplicateWaitObjectException("Product Doesn't exist yet, can't be updated.");
@@ -374,54 +377,6 @@ public class ProductListRepository : IProductRepository
         }
         return false;
     }
-
-    // main product validation
-    public bool Validate(Product product, Manufacturer manufacturer)
-    {
-        return
-            ValidateName(product.Name) &&
-            //ValidateWeight(product.Weight) &&
-            //ValidatePriceAndCost(product.GetPrice(), product.Cost) &&
-            ValidateCreatedAt(product.CreatedAt) &&
-            ValidateManufacturer(manufacturer);
-    }
-
-    public bool Validate(Product product)
-    {
-        return
-            ValidateName(product.Name) &&
-            //ValidateWeight(product.Weight) &&
-            //ValidatePriceAndCost(product.GetPrice(), product.Cost) &&
-            ValidateCreatedAt(product.CreatedAt);
-    }
-
-    // // -- validate sub-methods
-    public bool ValidateName(string name)
-    {
-        return name != null && name.Length > 3;
-    }
-    public bool ValidateWeight(double weight)
-    {
-        return weight > 0 && weight < 50;
-    }
-    public bool ValidatePriceAndCost(double price, double cost)
-    {
-        return price > 350 && cost > 150 && price > cost;
-    }
-    public bool ValidateCreatedAt(DateTime date)
-    {
-        return date >= DateTime.MinValue && date <= DateTime.MaxValue && date < DateTime.Now.AddDays(1);
-    }
-    // NOTICE: move this method to Manufacturer ReopoList
-    public bool ValidateManufacturer(Manufacturer manufacturer)
-    {
-        return
-            manufacturer.Name != null &&
-            manufacturer.Name.Length != 0 &&
-            manufacturer.Name.Length >= 2 &&
-            manufacturer.Name.Length <= 50;
-    }
-    // // -- end of validatesub- methods
 
     // Count products list
     public long Count()

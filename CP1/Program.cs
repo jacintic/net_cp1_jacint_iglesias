@@ -2,6 +2,10 @@
 using CP1.Repositories;
 using CP1.Models;
 using System.Diagnostics;
+using System.Text;
+// 0. set console so it can print €
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
 // 1. Crear objetos repositorio
 
 // instance repo
@@ -97,11 +101,20 @@ Console.WriteLine(productListRepository.Delete(567567) ? "Product Deleted Succes
 Console.WriteLine("Trying to fetch deleted prodcut with ID 567567");
 Console.WriteLine(productListRepository.FindById(7567567));
 
+// Sum All
+Console.WriteLine("\n\n===== Sum All Prices =====");
+
+Console.WriteLine(productListRepository.SumAllPrices() + "€");
+Console.WriteLine("Printing all products");
+Console.WriteLine(productListRepository.PrintAllProducts());
+
 // Delete All
 Console.WriteLine("\n\n===== Delete All =====");
 Console.WriteLine(productListRepository.DeleteAll() ? "Products Deleted Successfully" : "ERROR: Products couldn't be Deleted");
 Console.WriteLine("Printing all products");
 Console.WriteLine(productListRepository.PrintAllProducts());
+
+
 
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo

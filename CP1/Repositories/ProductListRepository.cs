@@ -390,6 +390,30 @@ public class ProductListRepository : IProductRepository
         return false;
     }
 
+    public double SumAllPrices()
+    {
+       try
+        {
+            if (Count() == 0)
+                throw new InvalidOperationException("Products list Empty");
+        } 
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        try
+        {
+            double sum = 0;
+            foreach (Product product in products)
+                sum += product.GetPrice();
+            return sum;
+        } catch (Exception ex)
+        {
+            Console.WriteLine("SumAllPrices Exception: " + ex.Message);
+        }
+        return 0;
+    }
+
     // Count products list
     public long Count()
     {
@@ -405,7 +429,7 @@ public class ProductListRepository : IProductRepository
         catch (InvalidOperationException ex)
         {
             Console.WriteLine(ex.Message);
-            return "";
+            return null;
         }
         return String.Join(" ", products);
     }

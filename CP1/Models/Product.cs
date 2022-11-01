@@ -26,6 +26,21 @@ public class Product
         Id = ++NextProductId;
         CreatedAt = GenerateRandomDate();
     }
+
+    public Product(List<Product> prodList)
+    {
+        if (prodList != null && prodList.Count > 0)
+        {
+            Id = FindMaxId(prodList) + 1;
+            if (NextProductId == (Id - 1))
+                ++NextProductId;
+            CreatedAt = GenerateRandomDate();
+        } else
+        {
+            Id = ++NextProductId;
+            CreatedAt = GenerateRandomDate();
+        }
+    }
     // Getter & Setters
     internal long GetId()
     {
@@ -61,11 +76,22 @@ public class Product
         return DateTime.Now;
     }
 
+    // Helpers
+    public long FindMaxId(List<Product> prodList)
+    {
+        long maxId = 0;
+        foreach (Product prod in prodList)
+            if (maxId < prod.Id)
+                maxId = prod.Id;
+        return maxId;
+    }
+
     // ToString
     public override string ToString()
     {
         return
             $"Product:" +
+            $"\n\t.Id: {Id} " +
             $"\n\t.Name: {Name} " +
             $"\n\t.Weight: {Weight} " +
             $"\n\t.Price: {Price}€" +

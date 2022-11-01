@@ -111,6 +111,26 @@ Console.WriteLine(productListRepository.SumGrossBenefit() + "€");
 Console.WriteLine("\n\n===== Sum All Prices Net (stock,cost) =====");
 Console.WriteLine(productListRepository.SumNetBenefit() + "€");
 
+
+// Sum All Gross benefit taking stock, IVA and cost into account
+Console.WriteLine("\n\n===== Sum All Prices Net (stock,cost, IVA) -- IVA default, 21% =====");
+Console.WriteLine(productListRepository.SumNetBenefitIva() + "€");
+
+Console.WriteLine("\n===== Sum All Prices Net (stock,cost, IVA) -- IVA 31% =====");
+Console.WriteLine(productListRepository.SumNetBenefitIva(31) + "€");
+
+Console.WriteLine("\n===== Sum All Prices Net (stock,cost, IVA) -- Wrong IVA 101% =====");
+try
+{
+    Console.WriteLine(productListRepository.SumNetBenefitIva(101) + "€");
+} 
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+
+
+
 // Delete All
 Console.WriteLine("\n\n===== Delete All =====");
 Console.WriteLine(productListRepository.DeleteAll() ? "Products Deleted Successfully" : "ERROR: Products couldn't be Deleted");

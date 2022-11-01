@@ -103,9 +103,12 @@ Console.WriteLine("Printing all products");
 Console.WriteLine(productListRepository.PrintAllProducts());
 
 
-// Sum All Net benefit taking stock and cost into account
-Console.WriteLine("\n\n===== Sum All Prices (stock,cost) =====");
+// Sum All Gross benefit taking stock into account
+Console.WriteLine("\n\n===== Sum All Prices Gross (stock) =====");
+Console.WriteLine(productListRepository.SumGrossBenefit() + "€");
 
+// Sum All Gross benefit taking stock and cost into account
+Console.WriteLine("\n\n===== Sum All Prices Net (stock,cost) =====");
 Console.WriteLine(productListRepository.SumNetBenefit() + "€");
 
 // Delete All

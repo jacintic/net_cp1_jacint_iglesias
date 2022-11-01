@@ -416,6 +416,18 @@ public class ProductListRepository : IProductRepository
         return 0;
     }
 
+    public double SumGrossBenefit()
+    {
+        if (Count() == 0)
+            throw new InvalidOperationException("Products list Empty");
+        double sum = 0;
+        foreach (Product product in products)
+            sum += product.GetPrice() * product.Stock;
+        return Math.Round(sum, 2);
+
+        return 0;
+    }
+
     public double SumNetBenefit()
     {
         if (Count() == 0)

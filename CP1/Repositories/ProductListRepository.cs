@@ -299,9 +299,9 @@ public class ProductListRepository : IProductRepository
             if (!ProductValidaitior.Validate(product))
                 throw new InvalidOperationException("Product is not valid.");
             if (!AlreadyExists(id))
-                throw new DuplicateWaitObjectException("Product Doesn't exist yet, can't be updated.");
+                throw new ArgumentNullException("Product Doesn't exist yet, can't be updated.");
         }
-        catch (DuplicateWaitObjectException e)
+        catch (ArgumentNullException e)
         {
             Console.WriteLine(e.Message);
             return false;
@@ -314,6 +314,7 @@ public class ProductListRepository : IProductRepository
         }
         try
         {
+
             products.ForEach(p =>
             {
                 if (p.GetId() == id)
@@ -362,7 +363,7 @@ public class ProductListRepository : IProductRepository
         }
         foreach (Product p in products)
         {
-            if (p.Name.Equals(product.Name))
+            if (p.Equals(product))
                 return true;
         }
         return false;
@@ -370,7 +371,7 @@ public class ProductListRepository : IProductRepository
 
     public bool AlreadyExists(long id)
     {
-
+        Product productTocheck = FindById(id);
         try
         {
             if (Count() == 0)
@@ -384,7 +385,7 @@ public class ProductListRepository : IProductRepository
         }
         foreach (Product p in products)
         {
-            if (p.GetId() == id)
+            if (p.Equals(productTocheck) )
                 return true;
         }
         return false;
@@ -402,7 +403,7 @@ public class ProductListRepository : IProductRepository
             Console.WriteLine(ex.Message);
         }
         try
-        {
+        { 
             double sum = 0;
             foreach (Product product in products)
                 sum += product.GetPrice();

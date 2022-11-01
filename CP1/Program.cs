@@ -48,21 +48,21 @@ Console.WriteLine(productListRepository.PrintList(productListRepository.FindByMa
 
 // save Product in products list
 Console.WriteLine("\n\n===== Save(product, manufacturer) =====");
-Product product1 = new Product { Name = "Asus XF0RCE"};
+Product product1 = new Product { Name = "Asus XF0RCE", Cost = 950.35};
 product1.SetPrice(1635.75);
 bool result = productListRepository.Save(product1, GenerateManufacturers()["asus"]);
 Console.WriteLine(result ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("asus")));
 // fail - duplicate
 Console.WriteLine("\n===== Save(duplicate product) =====");
-Product product2 = new Product { Name = "MacBook Pro" };
+Product product2 = new Product { Name = "MacBook Pro", Cost = 1250.55 };
 product1.SetPrice(2500.35);
 bool result2 = productListRepository.Save(product2, GenerateManufacturers()["mac"]);
 Console.WriteLine(result2 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("mac")));
 // fail - invalid product (name too short)
 Console.WriteLine("\n===== Save(invalid product) (name too short 'ab') =====");
-Product product3 = new Product { Name = "ab" };
+Product product3 = new Product { Name = "ab"};
 product3.SetPrice(2500.35);
 bool result3 = productListRepository.Save(product3, GenerateManufacturers()["mac"]);
 Console.WriteLine(result3 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
@@ -135,17 +135,17 @@ Dictionary<string, Manufacturer> GenerateManufacturers()
 List<Product> GenerateProductList()
 {
     Dictionary<string, Manufacturer> manufacturers = GenerateManufacturers();
-    Product macbook = new Product { Name = "MacBook Pro", manufacturer = manufacturers["mac"]};
+    Product macbook = new Product { Name = "MacBook Pro", manufacturer = manufacturers["mac"], Cost = 1350.55 };
     macbook.SetPrice(2500.35);
-    Product msiModern = new Product { Name = "MSI Modern", manufacturer = manufacturers["msi"]};
+    Product msiModern = new Product { Name = "MSI Modern", manufacturer = manufacturers["msi"], Cost = 995.35 };
     msiModern.SetPrice(1700.85);
-    Product asusA55A = new Product { Name = "Asus A55A", manufacturer = manufacturers["asus"] };
+    Product asusA55A = new Product { Name = "Asus A55A", manufacturer = manufacturers["asus"], Cost = 550.35 };
     asusA55A.SetPrice(950.75);
-    Product dellPro3000 = new Product { Name = "Dell Pro 300", manufacturer = manufacturers["dell"] };
+    Product dellPro3000 = new Product { Name = "Dell Pro 300", manufacturer = manufacturers["dell"], Cost = 950.35 };
     dellPro3000.SetPrice(1230.65);
-    Product msiGamingPro = new Product { Name = "MSI Gaming Pro", manufacturer = manufacturers["msi"] };
+    Product msiGamingPro = new Product { Name = "MSI Gaming Pro", manufacturer = manufacturers["msi"], Cost = 1150.35 };
     msiGamingPro.SetPrice(1850.85);
-    Product asus305D = new Product { Name = "Asus 305D", manufacturer = manufacturers["asus"] };
+    Product asus305D = new Product { Name = "Asus 305D", manufacturer = manufacturers["asus"], Cost = 350.35 };
     asus305D.SetPrice(850);
     return new List<Product>
     {

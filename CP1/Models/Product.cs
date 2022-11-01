@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ public class Product
 {
     // Attributes
     private long Id = 1;
-    private static int NextProductId;
+    private static long NextProductId;
     internal string Name { get; set; }
     internal double Weight { get; set; }
     private double Price { get; set; }
@@ -59,6 +60,7 @@ public class Product
         }
         return DateTime.Now;
     }
+
     // ToString
     public override string ToString()
     {
@@ -71,5 +73,27 @@ public class Product
             $"\n\t.Cost: {Cost} " +
             $"\n\t.CreatedAt: {CreatedAt} " +
             $"\n\t{manufacturer} \n";
+    }
+
+    public override bool Equals(Object? prod)
+    {
+        /*return prod is Product product &&
+               Id == product.GetId()
+               Name == product.Name &&
+               Weight == product.Weight &&
+               Price == product.Price &&
+               Stock == product.Stock &&
+               Cost == product.Cost &&
+               CreatedAt == product.CreatedAt &&
+               EqualityComparer<Manufacturer>.Default.Equals(manufacturer, product.manufacturer);*/
+        if ((prod == null) || !this.GetType().Equals(prod.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            Product p = (Product)prod;
+            return p.GetId() == Id || p.Name == Name; //(x == p.x) && (y == p.y);
+        }
     }
 }

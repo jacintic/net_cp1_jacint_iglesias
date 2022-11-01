@@ -385,7 +385,7 @@ public class ProductListRepository : IProductRepository
         }
         foreach (Product p in products)
         {
-            if (p.Equals(productTocheck) )
+            if (p.Equals(productTocheck))
                 return true;
         }
         return false;
@@ -393,25 +393,38 @@ public class ProductListRepository : IProductRepository
 
     public double SumAllPrices()
     {
-       try
+        try
         {
             if (Count() == 0)
                 throw new InvalidOperationException("Products list Empty");
-        } 
+        }
         catch (InvalidOperationException ex)
         {
             Console.WriteLine(ex.Message);
         }
         try
-        { 
+        {
             double sum = 0;
             foreach (Product product in products)
                 sum += product.GetPrice();
             return sum;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             Console.WriteLine("SumAllPrices Exception: " + ex.Message);
         }
+        return 0;
+    }
+
+    public double SumNetBenefit()
+    {
+        if (Count() == 0)
+            throw new InvalidOperationException("Products list Empty");
+        double sum = 0;
+        foreach (Product product in products)
+            sum += (product.GetPrice() - product.Cost) * product.Stock;
+        return Math.Round(sum, 2);
+
         return 0;
     }
 
@@ -422,7 +435,7 @@ public class ProductListRepository : IProductRepository
     }
     public string PrintAllProducts()
     {
-        try 
+        try
         {
             if (Count() == 0)
                 throw new InvalidOperationException("List empty. Can't print list");

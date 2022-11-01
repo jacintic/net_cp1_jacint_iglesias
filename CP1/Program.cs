@@ -48,14 +48,14 @@ Console.WriteLine(productListRepository.PrintList(productListRepository.FindByMa
 
 // save Product in products list
 Console.WriteLine("\n\n===== Save(product, manufacturer) =====");
-Product product1 = new Product { Name = "Asus XF0RCE", Cost = 950.35};
+Product product1 = new Product { Name = "Asus XF0RCE", Cost = 950.35, Stock = 3};
 product1.SetPrice(1635.75);
 bool result = productListRepository.Save(product1, GenerateManufacturers()["asus"]);
 Console.WriteLine(result ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
 Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("asus")));
 // fail - duplicate
 Console.WriteLine("\n===== Save(duplicate product) =====");
-Product product2 = new Product { Name = "MacBook Pro", Cost = 1250.55 };
+Product product2 = new Product { Name = "MacBook Pro", Cost = 1250.55, Stock = 2 };
 product1.SetPrice(2500.35);
 bool result2 = productListRepository.Save(product2, GenerateManufacturers()["mac"]);
 Console.WriteLine(result2 ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
@@ -102,6 +102,12 @@ Console.WriteLine(productListRepository.SumAllPrices() + "€");
 Console.WriteLine("Printing all products");
 Console.WriteLine(productListRepository.PrintAllProducts());
 
+
+// Sum All Net benefit taking stock and cost into account
+Console.WriteLine("\n\n===== Sum All Prices (stock,cost) =====");
+
+Console.WriteLine(productListRepository.SumNetBenefit() + "€");
+
 // Delete All
 Console.WriteLine("\n\n===== Delete All =====");
 Console.WriteLine(productListRepository.DeleteAll() ? "Products Deleted Successfully" : "ERROR: Products couldn't be Deleted");
@@ -135,17 +141,17 @@ Dictionary<string, Manufacturer> GenerateManufacturers()
 List<Product> GenerateProductList()
 {
     Dictionary<string, Manufacturer> manufacturers = GenerateManufacturers();
-    Product macbook = new Product { Name = "MacBook Pro", manufacturer = manufacturers["mac"], Cost = 1350.55 };
+    Product macbook = new Product { Name = "MacBook Pro", manufacturer = manufacturers["mac"], Cost = 1350.55, Stock = 3 };
     macbook.SetPrice(2500.35);
-    Product msiModern = new Product { Name = "MSI Modern", manufacturer = manufacturers["msi"], Cost = 995.35 };
+    Product msiModern = new Product { Name = "MSI Modern", manufacturer = manufacturers["msi"], Cost = 995.35, Stock = 2 };
     msiModern.SetPrice(1700.85);
-    Product asusA55A = new Product { Name = "Asus A55A", manufacturer = manufacturers["asus"], Cost = 550.35 };
+    Product asusA55A = new Product { Name = "Asus A55A", manufacturer = manufacturers["asus"], Cost = 550.35, Stock = 4 };
     asusA55A.SetPrice(950.75);
-    Product dellPro3000 = new Product { Name = "Dell Pro 300", manufacturer = manufacturers["dell"], Cost = 950.35 };
+    Product dellPro3000 = new Product { Name = "Dell Pro 300", manufacturer = manufacturers["dell"], Cost = 950.35 , Stock = 5 };
     dellPro3000.SetPrice(1230.65);
-    Product msiGamingPro = new Product { Name = "MSI Gaming Pro", manufacturer = manufacturers["msi"], Cost = 1150.35 };
+    Product msiGamingPro = new Product { Name = "MSI Gaming Pro", manufacturer = manufacturers["msi"], Cost = 1150.35 , Stock = 1 };
     msiGamingPro.SetPrice(1850.85);
-    Product asus305D = new Product { Name = "Asus 305D", manufacturer = manufacturers["asus"], Cost = 350.35 };
+    Product asus305D = new Product { Name = "Asus 305D", manufacturer = manufacturers["asus"], Cost = 350.35 , Stock = 2 };
     asus305D.SetPrice(850);
     return new List<Product>
     {

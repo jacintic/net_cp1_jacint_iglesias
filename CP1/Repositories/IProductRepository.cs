@@ -51,6 +51,9 @@ public interface IProductRepository {
     // Calcular la suma total de los precios
     double SumAllPrices();
 
+    // Calcular el beneficio bruto teniendo en cuenta precios y cantidades
+    double SumNetBenefit();
+
     //
 
 

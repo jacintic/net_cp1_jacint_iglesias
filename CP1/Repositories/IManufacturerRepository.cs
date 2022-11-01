@@ -19,9 +19,12 @@ public interface IManufacturerRepository {
 
     // Buscar todos
     List<Manufacturer> FindAll();
+
     // Guardar nuevo fabricante, replicar lo mismo para generar el id de fabricante que se hizo en productos.
+    bool Save(Manufacturer manufacturer);
 
     // Actualizar fabricante
+    bool Update(Manufacturer manufacturer);
 
     // Borrar fabricante por id
 }

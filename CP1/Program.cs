@@ -188,6 +188,23 @@ catch (Exception ex)
 Console.WriteLine("\n\n===== FindAll() =====");
 Console.WriteLine(String.Join("\n", manufacturerRepository.FindAll()));
 
+// Save Manufacturer
+Console.WriteLine("\n\n===== Save() =====");
+Console.WriteLine("1. Success");
+Manufacturer manuf1 = new Manufacturer { Name = "Hewlett Packard" };
+Console.WriteLine(manufacturerRepository.Save(manuf1) ? "Manufacturer Saved Successfully" : "ERROR: Manufacturer couldn't be saved");
+Console.WriteLine("2. Fail");
+Manufacturer manuf2 = new Manufacturer { Name = "Asus" };
+try
+{
+    Console.WriteLine(manufacturerRepository.Save(manuf2) ? "Manufacturer Saved Successfully" : "ERROR: Manufacturer couldn't be saved");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("ERROR: " + ex.Message);
+}
+// 2. Menú de opciones interactivo que se repita todo el tiempo
+
 
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo

@@ -51,4 +51,24 @@ public class ManufacturerListRepository : IManufacturerRepository{
             throw new InvalidOperationException("List is empty can't return list of Manufacturers.");
         return manufacturers;
     }
+    public bool Save(Manufacturer manufacturer)
+    {
+        if (ManufacturerIsDuplicate(manufacturer))
+            throw new InvalidOperationException("Manufacturer already exists (Name)");
+        manufacturers.Add(manufacturer);
+        return true;
+    }
+
+    // utilities
+    public bool ManufacturerIsDuplicate(Manufacturer manufacturer)
+    {
+        if (manufacturers.Count == 0)
+            return false;
+        if (manufacturer == null || manufacturer.Name.Equals("") || manufacturer.Name == null )
+            return false;
+        foreach (Manufacturer manuf in manufacturers)
+            if (manuf.Name.ToLower().Equals(manufacturer.Name.ToLower()))
+                return true;
+        return false;
+    }
 }

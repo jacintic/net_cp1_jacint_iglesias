@@ -424,8 +424,6 @@ public class ProductListRepository : IProductRepository
         foreach (Product product in products)
             sum += product.GetPrice() * product.Stock;
         return Math.Round(sum, 2);
-
-        return 0;
     }
 
     public double SumNetBenefit()
@@ -436,8 +434,6 @@ public class ProductListRepository : IProductRepository
         foreach (Product product in products)
             sum += (product.GetPrice() - product.Cost) * product.Stock;
         return Math.Round(sum, 2);
-
-        return 0;
     }
 
     public double SumNetBenefitIva(double iva = 21)

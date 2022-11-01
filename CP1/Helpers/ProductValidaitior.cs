@@ -53,5 +53,5 @@ public class ProductValidaitior
             manufacturer.Name.Length >= 2 &&
             manufacturer.Name.Length <= 50;
     }
-    // // -- end of validatesub- methods
+    // // -- end of validate sub- methods
 }

@@ -91,7 +91,6 @@ public class Product
     {
         return
             $"Product:" +
-            $"\n\t.Id: {Id} " +
             $"\n\t.Name: {Name} " +
             $"\n\t.Weight: {Weight} " +
             $"\n\t.Price: {Price}€" +

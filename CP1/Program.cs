@@ -203,6 +203,34 @@ catch (Exception ex)
 {
     Console.WriteLine("ERROR: " + ex.Message);
 }
+
+// Update Manufacturer
+Console.WriteLine("\n\n===== Update(manufacturer, id) =====");
+Console.WriteLine("1. Success");
+Manufacturer manuf3 = new Manufacturer { Name = "HP" };
+Console.WriteLine(manufacturerRepository.Update(manuf3, 25) ? "Manufacturer Updated Successfully" : "ERROR: Manufacturer couldn't be updated");
+Console.WriteLine("2. Fail (name == name)");
+Manufacturer manuf4 = new Manufacturer { Name = "Macintosh" };
+try
+{
+    Console.WriteLine(manufacturerRepository.Update(manuf4,21) ? "Manufacturer Updated Successfully" : "ERROR: Manufacturer couldn't be updated");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("ERROR: " + ex.Message);
+}
+Console.WriteLine("3. Fail (id not found)");
+Manufacturer manuf5 = new Manufacturer { Name = "Macintosh" };
+try
+{
+    Console.WriteLine(manufacturerRepository.Update(manuf5, 35) ? "Manufacturer Updated Successfully" : "ERROR: Manufacturer couldn't be updated");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("ERROR: " + ex.Message);
+}
+
+
 // 2. Menú de opciones interactivo que se repita todo el tiempo
 
 

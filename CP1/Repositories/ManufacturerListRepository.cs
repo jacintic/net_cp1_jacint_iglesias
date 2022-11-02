@@ -54,7 +54,7 @@ public class ManufacturerListRepository : IManufacturerRepository{
     public bool Save(Manufacturer manufacturer)
     {
         if (ManufacturerIsDuplicate(manufacturer))
-            throw new InvalidOperationException("Manufacturer already exists (Name)");
+            throw new InvalidOperationException("Manufacturer already exists (Id OR Name), Can't be Created");
         manufacturers.Add(manufacturer);
         return true;
     }
@@ -67,8 +67,18 @@ public class ManufacturerListRepository : IManufacturerRepository{
         if (manufacturer == null || manufacturer.Name.Equals("") || manufacturer.Name == null )
             return false;
         foreach (Manufacturer manuf in manufacturers)
-            if (manuf.Name.ToLower().Equals(manufacturer.Name.ToLower()))
+            if (manuf.GetId() == manufacturer.GetId() || manuf.Name.ToLower().Equals(manufacturer.Name.ToLower()))
                 return true;
         return false;
+    }
+
+    public bool Update(Manufacturer manufacturer, long id)
+    {
+        var myManufacturer = FindById(id);
+        // manufacturer => null exception already handled already by FindById method
+        if (myManufacturer.Name == manufacturer.Name)
+            return false;
+        myManufacturer.Name = manufacturer.Name;
+        return true;
     }
 }

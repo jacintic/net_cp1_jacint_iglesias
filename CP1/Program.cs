@@ -1,8 +1,10 @@
 ﻿
 using CP1.Repositories;
 using CP1.Models;
+using CP1.Helpers;
 using System.Diagnostics;
 using System.Text;
+using System.ComponentModel.Design;
 // 0. set console so it can print €
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -233,7 +235,7 @@ catch (Exception ex)
 }
 
 
-// 2. Menú de opciones interactivo que se repita todo el tiempo
+
 
 
 
@@ -248,6 +250,68 @@ catch (Exception ex)
 // ========= Utilities ========== //
 ////////////////////////////////////
 
+void Menu()
+{
+    string Option = "";
+    do
+    {
+        Console.Clear();
+        Console.WriteLine("1. Option 1");
+        Console.WriteLine("Write \"exit\" to exit");
+        Option = Console.ReadLine();
+        Console.Clear();
+        switch (Option)
+        {
+            case "1":
+                int prId = 0;
+                int exitCondition = 0;
+                do
+                {
+                    Console.WriteLine("You chose option 1");
+                    Console.WriteLine("Write an number from 1-6 to use the FindById(id) method");
+                    try
+                    {
+                        prId = Int32.Parse(Console.ReadLine());
+                        if (prId <= 0 || prId > 6)
+                            throw new InvalidOperationException("ERROR: input outside of the 1-6 range");
+                        exitCondition = 1;
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("ERROR: input can't be casted to int");
+                    }
+
+                } while (exitCondition != 1);
+                try
+                {
+                    productListRepository.FindById(prId);
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message);
+                }
+                 
+                break;
+            default:
+                break;
+        }
+        Thread.Sleep(2300);
+    }
+    while (!Option.ToLower().Equals("exit".ToLower()));
+    Console.WriteLine("You left the program, good bye!");
+    Environment.Exit(1);// exit
+}
+
+Menu menu = new Menu();
+menu.Start();
+
+// generates a Dictionary (Key, Value) to better handle instancing manufcaturers to Products
 Dictionary<string, Manufacturer> GenerateManufacturers()
 {
     // generate a few Manufacturers

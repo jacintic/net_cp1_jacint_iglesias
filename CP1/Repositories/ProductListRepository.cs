@@ -436,16 +436,26 @@ public class ProductListRepository : IProductRepository
         return Math.Round(sum, 2);
     }
 
-    public double SumNetBenefitIva(double iva = 21)
+    public List<Product> ProductsIva(double iva = 21)
     {
         if (Count() == 0)
             throw new InvalidOperationException("Products list Empty");
         if (iva <= 0 || iva > 100)
-            throw new InvalidOperationException("IVA out of the 1-100 range");
-        double sum = 0;
+            throw new InvalidOperationException("Iva is out of range");
+        List<Product> productsPlusIva = new List<Product>();
         foreach (Product product in products)
-            sum += (product.GetPrice() - product.Cost) * (iva * 0.01 + 1) * product.Stock;
-        return Math.Round(sum, 2);
+        {
+            Product p = new Product();
+            p.Name = product.Name;
+            p.Weight = product.Weight;
+            p.Stock = product.Stock;
+            p.Cost = product.Cost;
+            p.CreatedAt = product.CreatedAt;
+            p.manufacturer = product.manufacturer;
+            p.SetPrice(product.GetPrice() * (iva * 0.01 + 1));
+            productsPlusIva.Add(p);
+        }
+        return productsPlusIva;
     }
 
     // Count products list

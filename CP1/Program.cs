@@ -120,20 +120,14 @@ Console.WriteLine(productListRepository.SumNetBenefit() + "€");
 
 // Sum All Gross benefit taking stock, IVA and cost into account
 Console.WriteLine("\n\n===== Sum All Prices Net (stock,cost, IVA) -- IVA default, 21% =====");
-Console.WriteLine(productListRepository.SumNetBenefitIva() + "€");
+Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva()));
 
 Console.WriteLine("\n===== Sum All Prices Net (stock,cost, IVA) -- IVA 31% =====");
-Console.WriteLine(productListRepository.SumNetBenefitIva(31) + "€");
+Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva(31)));
 
-Console.WriteLine("\n===== Sum All Prices Net (stock,cost, IVA) -- Wrong IVA 101% =====");
-try
-{
-    Console.WriteLine(productListRepository.SumNetBenefitIva(101) + "€");
-}
-catch (Exception ex)
-{
-    Console.WriteLine(ex.Message);
-}
+
+Console.WriteLine("Print all products in repo (To Compare prices with and without IVA and show that no original Product was modified)");
+Console.WriteLine(productListRepository.PrintAllProducts());
 
 
 Console.WriteLine("\n\n\n" + productListRepository.PrintList(productListRepository.FindAll()));

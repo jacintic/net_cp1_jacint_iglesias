@@ -63,7 +63,7 @@ public interface IProductRepository {
     // defecto o lanzamos una excepción), que tendremos que convertir a porcentaje
     // (dividir entre 100) antes de usarlo. Cuidado: el precio se modifica para los
     // productos que devolvemos, pero no en la lista original.
-    double SumNetBenefitIva(double iva = 21);
+    List<Product> ProductsIva(double iva = 21);
 
     //
 

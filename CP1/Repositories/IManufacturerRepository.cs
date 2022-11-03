@@ -27,6 +27,7 @@ public interface IManufacturerRepository {
     bool Update(Manufacturer manufacturer, long id);
 
     // Borrar fabricante por id
+    bool Delete(long id);
 }
 
 

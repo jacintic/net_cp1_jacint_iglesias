@@ -76,9 +76,15 @@ public class ManufacturerListRepository : IManufacturerRepository{
     {
         var myManufacturer = FindById(id);
         // manufacturer => null exception already handled already by FindById method
-        if (myManufacturer.Name == manufacturer.Name)
+        if (myManufacturer.Name.ToLower().Equals(manufacturer.Name.ToLower()))
             return false;
         myManufacturer.Name = manufacturer.Name;
         return true;
+    }
+
+    public bool Delete(long id)
+    {
+        var selectedManufacturer = FindById(id);
+        return manufacturers.Remove(selectedManufacturer);
     }
 }

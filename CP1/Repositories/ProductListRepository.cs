@@ -40,60 +40,23 @@ public class ProductListRepository : IProductRepository
     // Methods
     public Product FindById(long id)
     {
-        // Handle empty list
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, can't find element.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle error by iterating within list
-        try
-        {
-            foreach (Product p in products)
-                if (p.GetId() == id)
-                    return p;
-            throw new InvalidOperationException("ERROR: Id not found.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Exception Type: " + e.GetType());
-            Console.WriteLine(e.Message);
-        }
-        return null;
+        // Handle empty 
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, can't find element.");
+        foreach (Product p in products)
+            if (p.GetId() == id)
+                return p;
+        // Handle Id not found in Repo
+        throw new InvalidOperationException("ERROR: Id not found.");
     }
 
     public List<Product> FindAll()
     {
         // Handle empty list
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, can't find element.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle error by iterating within list
-        try
-        {
-            return products;
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, can't find element.");
+        return products;
 
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Exception Type: " + e.GetType());
-            Console.WriteLine(e.Message);
-        }
-        return null;
     }
 
     public List<Product> FindByPriceRange(double min, double max)

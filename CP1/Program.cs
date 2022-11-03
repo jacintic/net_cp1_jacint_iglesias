@@ -1,10 +1,10 @@
 ﻿
 using CP1.Repositories;
 using CP1.Models;
-using CP1.Helpers;
 using System.Diagnostics;
 using System.Text;
 using System.ComponentModel.Design;
+using System.Data;
 // 0. set console so it can print €
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -26,6 +26,9 @@ List<Product> products = GenerateProductList();
 // fill repo with default product list
 productListRepository.Products = products;
 
+
+
+/*
 // find by id
 Console.WriteLine("===== FindById(2) =====");
 Console.WriteLine(productListRepository.FindById(2));
@@ -156,6 +159,8 @@ Console.WriteLine("\n\n===== Delete All =====");
 Console.WriteLine(productListRepository.DeleteAll() ? "Products Deleted Successfully" : "ERROR: Products couldn't be Deleted");
 Console.WriteLine("Printing all products");
 Console.WriteLine(productListRepository.PrintAllProducts());
+*/
+
 
 ////////////////////////////////////
 // ==== Manufacturer Methods ==== //
@@ -169,6 +174,8 @@ List<Manufacturer> manufacturersList = GenerateManufacturerList();
 
 // fill repo with default manufacturer list
 manufacturerRepository.Manufacturers =  manufacturersList;
+
+/*
 
 Console.WriteLine("\n\n\n=========================");
 Console.WriteLine("===== MANUFACTURERS =====");
@@ -234,12 +241,30 @@ catch (Exception ex)
     Console.WriteLine("ERROR: " + ex.Message);
 }
 
+// Delete Manufacturer
+Console.WriteLine("\n\n===== Delete(id) =====");
+Console.WriteLine("1. Success");
+Console.WriteLine(manufacturerRepository.Delete(21) ? "Manufacturer Deleted Successfully" : "ERROR: Manufacturer couldn't be deleted");
+Console.WriteLine("2. Fail");
+try
+{
+    Console.WriteLine(manufacturerRepository.Delete(21) ? "Manufacturer Deleted Successfully" : "ERROR: Manufacturer couldn't be deleted");
+
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+
+*/
 
 
 
 
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo
+
+Menu();
 
 // Gestionar excepciones si ocurren
 
@@ -256,10 +281,12 @@ void Menu()
     do
     {
         Console.Clear();
-        Console.WriteLine("1. Option 1");
+        Console.WriteLine("Write the number of the option you want to select.");
+        Console.WriteLine("1. Print Product by Id");
+        Console.WriteLine("2. Print All Products");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
-        Console.Clear();
+        
         switch (Option)
         {
             case "1":
@@ -267,6 +294,7 @@ void Menu()
                 int exitCondition = 0;
                 do
                 {
+                    Console.Clear();
                     Console.WriteLine("You chose option 1");
                     Console.WriteLine("Write an number from 1-6 to use the FindById(id) method");
                     try
@@ -279,37 +307,53 @@ void Menu()
                     catch (InvalidOperationException ex)
                     {
                         Console.WriteLine(ex.Message);
+                        Thread.Sleep(2300);
 
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine("ERROR: input can't be casted to int");
+                        Thread.Sleep(2300);
                     }
-
+                    
                 } while (exitCondition != 1);
                 try
                 {
-                    productListRepository.FindById(prId);
+                    Console.Write(productListRepository.FindById(prId));
+                    Thread.Sleep(2300);
                 }
                 catch (Exception ex)
                 {
 
                     Console.WriteLine(ex.Message);
+                    Thread.Sleep(2300);
                 }
-                 
+                break;
+            case "2":
+                Console.Clear();
+                Console.WriteLine("You chose option 2");
+                Console.WriteLine("Printing List of Products now.");
+                try
+                {
+                    Console.Write(productListRepository.PrintList(productListRepository.FindAll()));
+                    Console.WriteLine("Press any key to go back to the menu.");
+                    Console.ReadLine();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 break;
             default:
                 break;
         }
-        Thread.Sleep(2300);
     }
-    while (!Option.ToLower().Equals("exit".ToLower()));
+    while (!Option.ToLower().Equals("exit"));
+    Console.Clear();
     Console.WriteLine("You left the program, good bye!");
     Environment.Exit(1);// exit
 }
 
-Menu menu = new Menu();
-menu.Start();
 
 // generates a Dictionary (Key, Value) to better handle instancing manufcaturers to Products
 Dictionary<string, Manufacturer> GenerateManufacturers()

@@ -63,42 +63,13 @@ public class ProductListRepository : IProductRepository
     {
         List<Product> filtered = null;
         // Handle empty list
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, can't find element.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle instance of List error
-        try
-        {
-            filtered = new List<Product>();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("ERROR: unexpected Exception");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle error by iterating within list
-        try
-        {
-            foreach (Product p in products)
-                if (p.GetPrice() >= min && p.GetPrice() <= max)
-                    filtered.Add(p);
-            return filtered;
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, can't find element.");
+        filtered = new List<Product>();
 
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Exception Type: " + e.GetType());
-            Console.WriteLine(e.Message);
-        }
+        foreach (Product p in products)
+            if (p.GetPrice() >= min && p.GetPrice() <= max)
+                filtered.Add(p);
         return filtered;
     }
 

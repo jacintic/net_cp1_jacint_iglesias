@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.ComponentModel.Design;
 using System.Data;
+using System.Drawing;
 // 0. set console so it can print €
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -265,7 +266,6 @@ catch (Exception ex)
 // 2. Menú de opciones interactivo que se repita todo el tiempo
 
 Menu();
-
 // Gestionar excepciones si ocurren
 
 // Si se sele
@@ -284,6 +284,8 @@ void Menu()
         Console.WriteLine("Write the number of the option you want to select.");
         Console.WriteLine("1. Print Product by Id");
         Console.WriteLine("2. Print All Products");
+        Console.WriteLine("3. Filter Products by minimum and maximum price");
+        Console.WriteLine("4. Filter Products before given date");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -292,6 +294,7 @@ void Menu()
             case "1":
                 int prId = 0;
                 int exitCondition = 0;
+                int backToMenu = 0;
                 do
                 {
                     Console.Clear();
@@ -299,7 +302,14 @@ void Menu()
                     Console.WriteLine("Write an number from 1-6 to use the FindById(id) method");
                     try
                     {
-                        prId = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine("Type letter \"e\" to go back to the main menu");
+                        string temp = Console.ReadLine();
+                        if(temp.ToLower().Equals("e"))
+                        {
+                            backToMenu = 1;
+                            break;
+                        }
+                        prId = Int32.Parse(temp);
                         if (prId <= 0 || prId > 6)
                             throw new InvalidOperationException("ERROR: input outside of the 1-6 range");
                         exitCondition = 1;
@@ -307,27 +317,31 @@ void Menu()
                     catch (InvalidOperationException ex)
                     {
                         Console.WriteLine(ex.Message);
-                        Thread.Sleep(2300);
+                        Thread.Sleep(2000);
 
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine("ERROR: input can't be casted to int");
-                        Thread.Sleep(2300);
+                        Thread.Sleep(2000);
                     }
                     
                 } while (exitCondition != 1);
                 try
                 {
-                    Console.Write(productListRepository.FindById(prId));
-                    Thread.Sleep(2300);
+                    if (backToMenu != 1)
+                        Console.Write(productListRepository.FindById(prId));
                 }
                 catch (Exception ex)
                 {
 
                     Console.WriteLine(ex.Message);
-                    Thread.Sleep(2300);
                 }
+                if (backToMenu != 1) 
+                {
+                    Console.WriteLine("Press any key to go back to the menu.");
+                    Console.ReadLine();
+                }  
                 break;
             case "2":
                 Console.Clear();
@@ -343,6 +357,115 @@ void Menu()
                 {
                     Console.WriteLine(ex.Message);
                 }
+                break;
+            case "3":
+                int exitCondition2 = 0;
+                do
+                {
+                    double min = 0;
+                    double max = 0;
+                    Console.Clear();
+                    Console.WriteLine("You chose option 3");
+                    Console.WriteLine("Filter Products by minimum and maximum price.");
+                    Console.WriteLine("To go back to menu write \"e\".Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        exitCondition2 = 1;
+                        break;
+                    }
+                    int conditionForMin = 0;
+                    int conditionForMax = 0;
+                    do
+                    {
+                        try
+                        {
+                            Console.WriteLine("Introduce the minimum price using \".\" as decimal point.");
+                            string minS = Console.ReadLine();
+                            min = Double.Parse(minS);
+                            conditionForMin = 1;
+                        }
+                        catch (Exception)
+                        { 
+                            Console.WriteLine("ERROR: the input can't be converted to decimal.");
+                            Thread.Sleep(2000);
+                        }
+                        
+                    } while (conditionForMin == 0 );
+                    do
+                    {
+                        try
+                        {
+                            Console.WriteLine("Introduce the maximum price using \".\" as decimal point.");
+                            string maxS = Console.ReadLine();
+                            max = Double.Parse(maxS);
+                            
+                            conditionForMax = 1;
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("ERROR: the input can't be converted to decimal.");
+                            Thread.Sleep(2000);
+                        }
+
+                    } while (conditionForMax == 0);
+                    try
+                    {
+                        Console.Write(productListRepository.PrintList(productListRepository.FindByPriceRange(min,max)));
+                        exitCondition2 = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    
+
+                } while (exitCondition2 != 1);
+                break;
+            case "4":
+                //Console.WriteLine("\n\n===== FindByDateBefore(DateTime.Now) =====");
+                //Console.WriteLine(productListRepository.PrintList(productListRepository.FindByDateBefore(DateTime.Now)));
+                int exitFilterDate = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 4");
+                    Console.WriteLine("Filter products before given Date.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        exitFilterDate = 1;
+                        break;
+                    }
+                    Console.WriteLine("Introduce the date in this format: yyyy-mm-dd-hh-mm.");
+                    Console.WriteLine("Hint: all products are created +60 -60 minutes from now.");
+                    try
+                    {
+                        string myDate = Console.ReadLine();
+                        // parsing date
+                        int year = Int32.Parse(myDate.Substring(0, 4));
+                        int month = Int32.Parse(myDate.Substring(5, 2));
+                        int day = Int32.Parse(myDate.Substring(8, 2));
+                        int hour = Int32.Parse(myDate.Substring(11, 2));
+                        int minute = Int32.Parse(myDate.Substring(14, 2));
+                        //Console.WriteLine($"{year} {month} {day} {hour} {minute}");
+                        //Console.ReadLine();
+                        DateTime myDate2 = DateTime.Now;
+                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByDateBefore(new DateTime(year,month,day,hour,minute,00))));
+                        exitFilterDate = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("ERROR: Wrong format.");
+                        Thread.Sleep(2000);
+                    }
+                } while (exitFilterDate != 1);
                 break;
             default:
                 break;

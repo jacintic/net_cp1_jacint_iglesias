@@ -78,79 +78,32 @@ public class ProductListRepository : IProductRepository
     {
         List<Product> filtered = null;
         // Handle empty list
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, can't find element.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle instance of List error
-        try
-        {
-            filtered = new List<Product>();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("ERROR: unexpected Exception");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle error by iterating within list
-        try
-        {
-            foreach (Product p in products)
-                if (p.CreatedAt < date)
-                    filtered.Add(p);
-            return filtered;
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("ERROR: unexpected Exception");
-            Console.WriteLine(e.Message);
-        }
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, can't find element.");
+        filtered = new List<Product>();
+        foreach (Product p in products)
+            if (p.CreatedAt < date)
+                filtered.Add(p);
         return filtered;
     }
 
     public List<Product> FindByNameLike(string name)
     {
         // Handle empty list
-        try
+
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, can't find element.");
+
+        string pattern = @".*(" + name.ToLower() + ").*";
+        Regex rg = new Regex(pattern);
+        List<Product> productsLike = new List<Product>();
+        products.ForEach(p =>
         {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, can't find element.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return null;
-        }
-        // Handle errors during the regex and list iteration operations
-        try
-        {
-            string pattern = @".*(" + name.ToLower() + ").*";
-            Regex rg = new Regex(pattern);
-            List<Product> productsLike = new List<Product>();
-            products.ForEach(p =>
-            {
-                MatchCollection matchedProducts = rg.Matches(p.Name.ToLower());
-                if (matchedProducts.Count > 0)
-                    productsLike.Add(p);
-            });
-            return productsLike;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("ERROR: unexpected Exception");
-            Console.WriteLine(e.Message);
-        }
-        return null;
+            MatchCollection matchedProducts = rg.Matches(p.Name.ToLower());
+            if (matchedProducts.Count > 0)
+                productsLike.Add(p);
+        });
+        return productsLike;
 
     }
 

@@ -286,6 +286,8 @@ void Menu()
         Console.WriteLine("2. Print All Products");
         Console.WriteLine("3. Filter Products by minimum and maximum price");
         Console.WriteLine("4. Filter Products before given date");
+        Console.WriteLine("5. Filter Products by name of the product LIKE %name.ToLower()%");
+        Console.WriteLine("6. Filter Products by name od the product's manufacturer LIKE %manufacturer.name.ToLower()%");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -426,8 +428,6 @@ void Menu()
                 } while (exitCondition2 != 1);
                 break;
             case "4":
-                //Console.WriteLine("\n\n===== FindByDateBefore(DateTime.Now) =====");
-                //Console.WriteLine(productListRepository.PrintList(productListRepository.FindByDateBefore(DateTime.Now)));
                 int exitFilterDate = 0;
                 do
                 {
@@ -442,7 +442,7 @@ void Menu()
                         break;
                     }
                     Console.WriteLine("Introduce the date in this format: yyyy-mm-dd-hh-mm.");
-                    Console.WriteLine("Hint: all products are created +60 -60 minutes from now.");
+                    Console.WriteLine("Hint: all products are created +60 -60 minutes from now's Date.");
                     try
                     {
                         string myDate = Console.ReadLine();
@@ -467,6 +467,49 @@ void Menu()
                     }
                 } while (exitFilterDate != 1);
                 break;
+            case "5":
+                int exitFilterPName = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 5");
+                    Console.WriteLine("Filter by product name LIKE %name.ToLower()%.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        exitFilterPName = 1;
+                        break;
+                    }
+                    Console.WriteLine("Introduce the name of the product.");
+                    Console.WriteLine("Hint: names like MSI, Asus, Macintosh, etc.");
+                    try
+                    {
+
+                        // filter by name LIKE
+                        string prodName = Console.ReadLine();
+
+                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike(prodName)));
+                        exitFilterPName = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("ERROR: Wrong format.");
+                        Thread.Sleep(2000);
+                    }
+                } while (exitFilterPName != 1);
+                break;
+                // filter by name LIKE
+                Console.WriteLine("\n\n===== FindByNameLike('asus') =====");
+                Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("asus")));
+                Console.WriteLine("\n===== FindByNameLike('non existing name') =====");
+                Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("non existing name")));
+
+                // filter by Manufacturer Name
+                Console.WriteLine("\n\n===== FindByManufacturerNameLike('msi') =====");
+                Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("msi")));
             default:
                 break;
         }

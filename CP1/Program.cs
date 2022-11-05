@@ -287,7 +287,7 @@ void Menu()
         Console.WriteLine("3. Filter Products by minimum and maximum price");
         Console.WriteLine("4. Filter Products before given date");
         Console.WriteLine("5. Filter Products by name of the product LIKE %name.ToLower()%");
-        Console.WriteLine("6. Filter Products by name od the product's manufacturer LIKE %manufacturer.name.ToLower()%");
+        Console.WriteLine("6. Filter Products by name of the product's manufacturer LIKE %manufacturer.name.ToLower()%");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -501,15 +501,40 @@ void Menu()
                     }
                 } while (exitFilterPName != 1);
                 break;
-                // filter by name LIKE
-                Console.WriteLine("\n\n===== FindByNameLike('asus') =====");
-                Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("asus")));
-                Console.WriteLine("\n===== FindByNameLike('non existing name') =====");
-                Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike("non existing name")));
-
+            case "6": 
                 // filter by Manufacturer Name
-                Console.WriteLine("\n\n===== FindByManufacturerNameLike('msi') =====");
-                Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("msi")));
+                int exitFilterMName = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 5");
+                    Console.WriteLine("Filter by product's manufacturer name LIKE %name.ToLower()%.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Introduce the name of the product' smanufacturer.");
+                    Console.WriteLine("Hint: names like MSI, Asus, Macintosh, etc.");
+                    try
+                    {
+
+                        // filter by name LIKE
+                        string prodName = Console.ReadLine();
+
+                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike(prodName)));
+                        exitFilterMName = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitFilterMName != 1);
+                break;
             default:
                 break;
         }

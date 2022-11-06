@@ -292,6 +292,7 @@ void Menu()
         Console.WriteLine("6. Filter Products by name of the product's manufacturer LIKE %manufacturer.name.ToLower()%");
         Console.WriteLine("7. Save a Product in the List");
         Console.WriteLine("8. Update a Product in the List");
+        Console.WriteLine("9. Delete Product by Id");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -607,15 +608,16 @@ void Menu()
                 } while (exitSaveP != 1);
                 break;
             case "8":
-                // save product
+                // update product
                 // example:
-                // // Hoobie 3-50,50-3-100,50-Hoobie // this creates new product AND new manufacturer
+                // // Name-Price-Id
+                // // Hoobie 3-1500,35-3 // this updates product Id 3 and changes name and price
                 int exitUpdate = 0;
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine("You chose option 7");
-                    Console.WriteLine("Save Product to List.");
+                    Console.WriteLine("You chose option 8");
+                    Console.WriteLine("Update Product from List.");
                     Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
@@ -650,6 +652,63 @@ void Menu()
                         Thread.Sleep(2000);
                     }
                 } while (exitUpdate != 1);
+                break;
+            case "9":
+                // Delete By Id
+                // example:
+                // // 1
+                int exitDeleteId = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 9");
+                    Console.WriteLine("Delete Product from List.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Introduce The Id of the Product");
+                    Console.WriteLine("Hint: safe Ids range from 1-6");
+                    long id = 0;
+                    try
+                    {
+                        // Parsing Product's parameters
+                        try
+                        {
+                            id = long.Parse(Console.ReadLine());
+
+                        }
+                        catch
+                        {
+                            Console.WriteLine("ERROR: Id was inserted in wrong format");
+                            Thread.Sleep(2000);
+                            break;
+                        }
+
+                        Console.WriteLine(productListRepository.Delete(id) ? "Product deleted successfully" : "Error while deleting Product");
+                        Console.WriteLine("Checking product's Id on repo List:");
+                        try
+                        {
+                            Console.WriteLine(productListRepository.FindById(id));
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Thread.Sleep(3500);
+                        }
+                        
+                        exitUpdate = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitDeleteId != 1);
                 break;
             default:
                 break;

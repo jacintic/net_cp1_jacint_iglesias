@@ -305,31 +305,15 @@ void Menu()
          ███████████████████████████████████████████████████████████████████████████
          █████▄─▄▄─█▀▀▀▀▀██─▄▄▄▄█─█─█─▄▄─█▄─▄▄─███▄─▀█▀─▄█▄─▄▄─█▄─▀█▄─▄█▄─██─▄██████
          ██████─▄█▀████████▄▄▄▄─█─▄─█─██─██─▄▄▄████─█▄█─███─▄█▀██─█▄▀─███─██─███████
-         ████▀▄▄▄▄▄▀▀▀▀▀▀▀▀▄▄▄▄▄▀▄▀▄▀▄▄▄▄▀▄▄▄▀▀▀▀▀▄▄▄▀▄▄▄▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▄▀▀█████
+         █████▄▄▄▄▄████████▄▄▄▄▄█▄█▄█▄▄▄▄█▄▄▄█████▄▄▄█▄▄▄█▄▄▄▄▄█▄▄▄██▄▄██▄▄▄▄███████
          ███████████████████████████████████████████████████████████████████████████";
     string Option = "";
     do
     {
-        Console.BackgroundColor = ConsoleColor.DarkBlue;
+        //Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
         Console.WriteLine(text.Color(224, 184, 110));
         MenuPainter();
-        /*Console.WriteLine("Write the number of the option you want to select.");
-        Console.WriteLine("1. Print Product by Id");
-        Console.WriteLine("2. Print All Products");
-        Console.WriteLine("3. Filter Products by minimum and maximum price");
-        Console.WriteLine("4. Filter Products before given date");
-        Console.WriteLine("5. Filter Products by name of the product %name%");
-        Console.WriteLine("6. Filter Products by name of the product's manufacturer");
-        Console.WriteLine("7. Save a Product in the List");
-        Console.WriteLine("8. Update a Product in the List");
-        Console.WriteLine("9. Delete Product by Id");
-        Console.WriteLine("10. Delete All Products");
-        Console.WriteLine("11. Sum all Product's prices");
-        Console.WriteLine("12. Sum all Gross benefit from Products (Price * Stock)");
-        Console.WriteLine("13. Sum Net benefit from Products ((Price - Cost) * Stock)");
-        Console.WriteLine("14. Show Product Prices + IVA (without altering the original Products or List)");
-        Console.WriteLine("Write \"exit\" to exit");*/
         Option = Console.ReadLine();
         
         switch (Option)
@@ -986,8 +970,7 @@ void Menu()
                 break;
             default:
                 break;
-        }
-    }
+        }}
     while (!Option.ToLower().Equals("exit"));
     Console.Clear();
     Console.WriteLine("You left the program, good bye!");
@@ -1085,25 +1068,25 @@ void MenuPainter()
     PrintLine(tableWidth);
     PrintRowII(tableWidth, "14", "Show Product Prices + IVA");
     PrintLine(tableWidth);
-    Console.WriteLine("Write \"exit\" to exit");
+    Console.WriteLine("         Write \"exit\" to exit".Color(255, 242, 0));
 }
 
 
 static void PrintLine(int tableWidth)
 {
     string space = new string(' ', 9);
-    Console.WriteLine(space + new string('═', tableWidth));
+    Console.WriteLine(space + new string('═', tableWidth).Color(27, 12, 82));
 }
 
 static void PrintRow(int tableWidth, params string[] columns)
 {
     string space = new string(' ', 9);
     int width = (tableWidth - columns.Length) / columns.Length;
-    string row = space + "║";
+    string row = space + "║".Color(27, 12, 82);
 
     foreach (string column in columns)
     {
-        row += AlignCentre(column, width - 1) + "║";
+        row += AlignCentre(column, width - 1).Color(112, 174, 212) + "║".Color(27, 12, 82);
     }
 
     Console.WriteLine(row);
@@ -1125,15 +1108,15 @@ static void PrintRowII(int tableWidth, params string[] columns)
     {
         if (i == 0)
         {
-            Console.Write(space + "║");
+            Console.Write(space + "║".Color(27, 12, 82));
         }
         else if (i == 1) {
-            Console.Write(myRows[i].Color(224, 184, 110));
-            Console.Write("║");
+            Console.Write(myRows[i].Color(0, 229, 255));
+            Console.Write("║".Color(27, 12, 82));
         }
         else if (i == 2) {
             Console.Write(myRows[i]);
-            Console.Write("║");
+            Console.Write("║".Color(27, 12, 82));
         }
     }
     Console.WriteLine();

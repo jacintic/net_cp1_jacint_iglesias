@@ -18,4 +18,15 @@ Calcular el beneficio bruto teniendo en cuenta precios y cantidades
 Calcular beneficio neto teniendo en cuenta precios y cantidades menos coste
 Obtener los productos pero con el IVA (21%) añadido al precio
 */
+
+
+    /*
+     // save Product in products list
+Console.WriteLine("\n\n===== Save(product, manufacturer) =====");
+Product product1 = new Product { Name = "Asus XF0RCE", Cost = 950.35, Stock = 3 };
+product1.SetPrice(1635.75);
+bool result = productListRepository.Save(product1, GenerateManufacturers()["asus"]);
+Console.WriteLine(result ? "Product Saved Successfully" : "ERROR: Product couldn't be saved");
+Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike("asus")));
+     */
 }

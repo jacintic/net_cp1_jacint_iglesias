@@ -6,6 +6,7 @@ using System.Text;
 using System.ComponentModel.Design;
 using System.Data;
 using System.Drawing;
+using System;
 // 0. set console so it can print €
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -288,6 +289,7 @@ void Menu()
         Console.WriteLine("4. Filter Products before given date");
         Console.WriteLine("5. Filter Products by name of the product LIKE %name.ToLower()%");
         Console.WriteLine("6. Filter Products by name of the product's manufacturer LIKE %manufacturer.name.ToLower()%");
+        Console.WriteLine("7. Save a Product in the List");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -472,7 +474,7 @@ void Menu()
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine("You chose option 5");
+                    Console.WriteLine("You chose option 6");
                     Console.WriteLine("Filter by product name LIKE %name.ToLower()%.");
                     Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
                     string temp = Console.ReadLine();
@@ -501,7 +503,7 @@ void Menu()
                     }
                 } while (exitFilterPName != 1);
                 break;
-            case "6": 
+            case "6":
                 // filter by Manufacturer Name
                 int exitFilterMName = 0;
                 do
@@ -534,6 +536,53 @@ void Menu()
                         Thread.Sleep(2000);
                     }
                 } while (exitFilterMName != 1);
+                break;
+
+            case "7":
+                // save product
+                int exitSaveP = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 7");
+                    Console.WriteLine("Save Product to List.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Introduce Parameters of the Product in the following format.");
+                    Console.WriteLine("Name-Cost-Stock-Price-Manufacturer ");
+                    Console.WriteLine("Hint: manufacturers like \"msi\", \"mac\" or \"asus\"");
+                    Console.WriteLine("Hint: use coma \",\" to separate decimals instead of dot \".\"");
+                    Console.WriteLine("Format: Name-Cost-Stock-Price-Manufacturer ");
+                    try
+                    {
+                        // Parsing Product's parameters
+                        string product = Console.ReadLine();
+                        string[] productParams = product.Split('-');
+                        Product productToSave = new Product 
+                        { 
+                            Name = productParams[0], 
+                            Cost = Convert.ToDouble(productParams[1]), 
+                            Stock = Convert.ToInt32(productParams[2]),
+                        };
+                        productToSave.SetPrice(Convert.ToDouble(productParams[3]));
+                        productListRepository.Save(productToSave, GenerateManufacturers()[productParams[4].ToLower()]);
+                        Console.WriteLine("Printing Saved Product:");
+                        Console.WriteLine(productListRepository.FindById(productToSave.GetId()));
+                        exitSaveP = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitSaveP != 1);
+                break;
                 break;
             default:
                 break;

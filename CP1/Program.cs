@@ -291,6 +291,7 @@ void Menu()
         Console.WriteLine("5. Filter Products by name of the product LIKE %name.ToLower()%");
         Console.WriteLine("6. Filter Products by name of the product's manufacturer LIKE %manufacturer.name.ToLower()%");
         Console.WriteLine("7. Save a Product in the List");
+        Console.WriteLine("8. Update a Product in the List");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -604,6 +605,51 @@ void Menu()
                         Thread.Sleep(2000);
                     }
                 } while (exitSaveP != 1);
+                break;
+            case "8":
+                // save product
+                // example:
+                // // Hoobie 3-50,50-3-100,50-Hoobie // this creates new product AND new manufacturer
+                int exitUpdate = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 7");
+                    Console.WriteLine("Save Product to List.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    Console.WriteLine("Introduce Parameters of the Product (Name, Price and Id) in the following format.");
+                    Console.WriteLine("Name-Price-Id");
+                    Console.WriteLine("Hint: use coma \",\" to separate decimals instead of dot \".\"");
+                    Console.WriteLine("Format: Name-Price-Id ");
+                    try
+                    {
+                        // Parsing Product's parameters
+                        string product = Console.ReadLine();
+                        string[] productParams = product.Split('-');
+                        Product productToUpdate = new Product
+                        {
+                            Name = productParams[0]
+                        };
+                        productToUpdate.SetPrice(Convert.ToDouble(productParams[1]));
+                        long id = long.Parse(productParams[2]);
+                        productListRepository.Update(productToUpdate, id);
+                        Console.WriteLine("Printing Updated Product:");
+                        Console.WriteLine(productListRepository.FindById(id));
+                        exitUpdate = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitUpdate != 1);
                 break;
             default:
                 break;

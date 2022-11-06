@@ -143,44 +143,19 @@ public class ProductListRepository : IProductRepository
 
     public bool Update(Product product, long id)
     {
-        try
+        if (!ProductValidaitior.Validate(product))
+            throw new InvalidOperationException("Product is not valid.");
+        if (!AlreadyExists(id))
+            throw new ArgumentNullException("Product Doesn't exist yet, can't be updated.");
+        products.ForEach(p =>
         {
-            if (!ProductValidaitior.Validate(product))
-                throw new InvalidOperationException("Product is not valid.");
-            if (!AlreadyExists(id))
-                throw new ArgumentNullException("Product Doesn't exist yet, can't be updated.");
-        }
-        catch (ArgumentNullException e)
-        {
-            Console.WriteLine(e.Message);
-            return false;
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception: Update");
-            Console.WriteLine(e.Message);
-            return false;
-        }
-        try
-        {
-
-            products.ForEach(p =>
+            if (p.GetId() == id)
             {
-                if (p.GetId() == id)
-                {
-                    p.Name = product.Name;
-                    p.SetPrice(product.GetPrice());
-                }
-            });
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Unexpected exception when Updating the Product");
-            Console.WriteLine(ex.Message);
-            return false;
-        }
-        return false;
+                p.Name = product.Name;
+                p.SetPrice(product.GetPrice());
+            }
+        });
+        return true;
     }
 
     public bool Delete(long id)

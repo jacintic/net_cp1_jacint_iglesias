@@ -293,6 +293,7 @@ void Menu()
         Console.WriteLine("7. Save a Product in the List");
         Console.WriteLine("8. Update a Product in the List");
         Console.WriteLine("9. Delete Product by Id");
+        Console.WriteLine("10. Delete All Products");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -698,8 +699,8 @@ void Menu()
                             Console.WriteLine(ex.Message);
                             Thread.Sleep(3500);
                         }
-                        
-                        exitUpdate = 1;
+
+                        exitDeleteId = 1;
                         Console.WriteLine("Press any key to go back to the menu.");
                         Console.ReadLine();
                     }
@@ -709,6 +710,46 @@ void Menu()
                         Thread.Sleep(2000);
                     }
                 } while (exitDeleteId != 1);
+                break;
+            case "10":
+                // Delete By All Products
+                int exitDeleteAll = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 10");
+                    Console.WriteLine("Delete All Products from List.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    try
+                    {
+                        
+                        Console.WriteLine(productListRepository.DeleteAll() ? "Products deleted successfully" : "Error while deleting Products");
+                        Console.WriteLine("Checking product's on repo List:");
+                        try
+                        {
+                            Console.WriteLine(productListRepository.PrintAllProducts());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Thread.Sleep(3500);
+                        }
+
+                        exitDeleteAll = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitDeleteAll != 1);
                 break;
             default:
                 break;

@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System;
 using System.Net;
+using Chubrik.XConsole;
 // 0. set console so it can print €
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -267,7 +268,28 @@ catch (Exception ex)
 
 // 2. Menú de opciones interactivo que se repita todo el tiempo
 
+
+
+
+static ConsoleColor FromColor(Color c)
+{
+    int index = (c.R > 128 | c.G > 128 | c.B > 128) ? 8 : 0; // Bright bit
+    index |= (c.R > 64) ? 4 : 0; // Red bit
+    index |= (c.G > 64) ? 2 : 0; // Green bit
+    index |= (c.B > 64) ? 1 : 0; // Blue bit
+
+    return (System.ConsoleColor)index;
+}
+
+/*Color c = Color.FromArgb(25,0,51);
+Console.BackgroundColor = FromColor(c);
+Console.Clear();*/
+
+//Console.WriteLine(text.BgColor(Color.DarkBlue));
+
+
 Menu();
+
 // Gestionar excepciones si ocurren
 
 // Si se sele
@@ -279,17 +301,26 @@ Menu();
 
 void Menu()
 {
+    string text = @"
+         ███████████████████████████████████████████████████████████████████████████
+         █████▄─▄▄─█▀▀▀▀▀██─▄▄▄▄█─█─█─▄▄─█▄─▄▄─███▄─▀█▀─▄█▄─▄▄─█▄─▀█▄─▄█▄─██─▄██████
+         ██████─▄█▀████████▄▄▄▄─█─▄─█─██─██─▄▄▄████─█▄█─███─▄█▀██─█▄▀─███─██─███████
+         ████▀▄▄▄▄▄▀▀▀▀▀▀▀▀▄▄▄▄▄▀▄▀▄▀▄▄▄▄▀▄▄▄▀▀▀▀▀▄▄▄▀▄▄▄▀▄▄▄▄▄▀▄▄▄▀▀▄▄▀▀▄▄▄▄▀▀█████
+         ███████████████████████████████████████████████████████████████████████████";
     string Option = "";
     do
     {
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
         Console.Clear();
-        Console.WriteLine("Write the number of the option you want to select.");
+        Console.WriteLine(text.Color(224, 184, 110));
+        MenuPainter();
+        /*Console.WriteLine("Write the number of the option you want to select.");
         Console.WriteLine("1. Print Product by Id");
         Console.WriteLine("2. Print All Products");
         Console.WriteLine("3. Filter Products by minimum and maximum price");
         Console.WriteLine("4. Filter Products before given date");
-        Console.WriteLine("5. Filter Products by name of the product LIKE %name.ToLower()%");
-        Console.WriteLine("6. Filter Products by name of the product's manufacturer LIKE %manufacturer.name.ToLower()%");
+        Console.WriteLine("5. Filter Products by name of the product %name%");
+        Console.WriteLine("6. Filter Products by name of the product's manufacturer");
         Console.WriteLine("7. Save a Product in the List");
         Console.WriteLine("8. Update a Product in the List");
         Console.WriteLine("9. Delete Product by Id");
@@ -298,7 +329,7 @@ void Menu()
         Console.WriteLine("12. Sum all Gross benefit from Products (Price * Stock)");
         Console.WriteLine("13. Sum Net benefit from Products ((Price - Cost) * Stock)");
         Console.WriteLine("14. Show Product Prices + IVA (without altering the original Products or List)");
-        Console.WriteLine("Write \"exit\" to exit");
+        Console.WriteLine("Write \"exit\" to exit");*/
         Option = Console.ReadLine();
         
         switch (Option)
@@ -1012,3 +1043,111 @@ List<Manufacturer> GenerateManufacturerList()
         };
 }
 
+
+//////////////////////////////////////
+/////////// MENU PAINTER /////////////
+//////////////////////////////////////
+
+
+void MenuPainter()
+{
+    int tableWidth = 75;
+    PrintLine(tableWidth);
+    PrintRow(tableWidth, "Write the number of the option you want to select.");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth,"Option", "Action");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth,"1", "Print Product by Id");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth,"2", "Print All Products");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "3", "Filter Products by minimum and maximum price");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "4", "Filter Products before given date");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "5", "Filter Products by name of the product");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "6", "Filter Products by name of the product's manufacturer");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "7", "Save a Product in the List");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "8", "Update a Product in the List");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "9", "Delete Product by Id");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "10", "Delete All Products");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "11", "Sum all Product prices");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "12", "Sum all Gross benefit from Products");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "13", "Sum Net benefit from Products");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "14", "Show Product Prices + IVA");
+    PrintLine(tableWidth);
+    Console.WriteLine("Write \"exit\" to exit");
+}
+
+
+static void PrintLine(int tableWidth)
+{
+    string space = new string(' ', 9);
+    Console.WriteLine(space + new string('═', tableWidth));
+}
+
+static void PrintRow(int tableWidth, params string[] columns)
+{
+    string space = new string(' ', 9);
+    int width = (tableWidth - columns.Length) / columns.Length;
+    string row = space + "║";
+
+    foreach (string column in columns)
+    {
+        row += AlignCentre(column, width - 1) + "║";
+    }
+
+    Console.WriteLine(row);
+}
+
+static void PrintRowII(int tableWidth, params string[] columns)
+{
+    string space = new string(' ', 9);
+    int firstRow = 8;
+    int width = (tableWidth - columns.Length) / columns.Length;
+    string row = "║";
+
+
+    row += AlignCentre(columns[0], firstRow) + "║";
+    row += AlignCentre(columns[1], tableWidth - firstRow - 3) + "║";
+
+    string[] myRows = row.Split("║");
+    for (int i = 0; i < myRows.Length; i++)
+    {
+        if (i == 0)
+        {
+            Console.Write(space + "║");
+        }
+        else if (i == 1) {
+            Console.Write(myRows[i].Color(224, 184, 110));
+            Console.Write("║");
+        }
+        else if (i == 2) {
+            Console.Write(myRows[i]);
+            Console.Write("║");
+        }
+    }
+    Console.WriteLine();
+}
+static string AlignCentre(string text, int width)
+{
+    text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+    if (string.IsNullOrEmpty(text))
+    {
+        return new string(' ', width);
+    }
+    else
+    {
+        return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+    }
+}

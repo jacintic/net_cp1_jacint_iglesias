@@ -113,6 +113,8 @@ public class Product : IPrototype<Product>
             return p.GetId() == Id || p.Name == Name;
         }
     }
+    // clone product
+    // param products is used to find a proper Id for the product within the list
     public Product CreateDeepCopy(List<Product> products)
     {
         var product = (Product)MemberwiseClone();

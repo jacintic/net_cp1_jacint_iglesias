@@ -129,38 +129,16 @@ public class ProductListRepository : IProductRepository
 
     public bool Save(Product product, Manufacturer manufacturer)
     {
-        try
-        {
-            if (AlreadyExists(product))
-                throw new DuplicateWaitObjectException("Duplicate Product. Aborting operation.");
-            if (!ProductValidaitior.Validate(product, manufacturer))
-                throw new InvalidOperationException("Product is not valid.");
-        }
-        catch (DuplicateWaitObjectException e)
-        {
-            Console.WriteLine("Duplicate Wait Object Exception:");
-            Console.WriteLine(e.Message);
-            return false;
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception, Save:");
-            Console.WriteLine(e.Message);
-            return false;
-        }
-        try
-        {
-            product.manufacturer = manufacturer;
-            products.Add(product);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Unexpected exception when Saving the Product");
-            Console.WriteLine(ex.Message);
-            return false;
-        }
-        return false;
+        if(product is null || manufacturer is null)
+            throw new InvalidOperationException("Product or manufacturer are null.");
+        if (AlreadyExists(product))
+            throw new DuplicateWaitObjectException("Duplicate Product. Aborting operation.");
+        if (!ProductValidaitior.Validate(product, manufacturer))
+            throw new InvalidOperationException("Product is not valid.");
+
+        product.manufacturer = manufacturer;
+        products.Add(product);
+        return true;
     }
 
     public bool Update(Product product, long id)

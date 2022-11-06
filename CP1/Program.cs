@@ -7,6 +7,7 @@ using System.ComponentModel.Design;
 using System.Data;
 using System.Drawing;
 using System;
+using System.Net;
 // 0. set console so it can print €
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
@@ -540,6 +541,8 @@ void Menu()
 
             case "7":
                 // save product
+                // example:
+                // // Hoobie 3-50,50-3-100,50-Hoobie // this creates new product AND new manufacturer
                 int exitSaveP = 0;
                 do
                 {
@@ -569,7 +572,26 @@ void Menu()
                             Stock = Convert.ToInt32(productParams[2]),
                         };
                         productToSave.SetPrice(Convert.ToDouble(productParams[3]));
-                        productListRepository.Save(productToSave, GenerateManufacturers()[productParams[4].ToLower()]);
+                        // getting manufacturer
+                        Manufacturer mf1 = null;
+                        try 
+                        {
+                            mf1 = GenerateManufacturers()[productParams[4].ToLower()];
+                        }
+                        catch 
+                        {
+                            // manufacturer doesn't exist, do nothing but prevent from exiting main try catch block so 
+                            // transaction will continue
+                            // warning will be shown next iteration
+                        }
+                        // checking if it doesn't exist to create it
+                        if (mf1 is null)
+                        {
+                            mf1 = new Manufacturer { Name = productParams[4]};
+                            Console.WriteLine("Manufacturer doesn't exist. Creating new Manufacturer: " + (manufacturerRepository.Save(mf1) ? "Manufacturer saved successfully" : "Error while saving new Manufacturer"));
+                        }
+
+                        productListRepository.Save(productToSave, mf1);
                         Console.WriteLine("Printing Saved Product:");
                         Console.WriteLine(productListRepository.FindById(productToSave.GetId()));
                         exitSaveP = 1;
@@ -582,7 +604,6 @@ void Menu()
                         Thread.Sleep(2000);
                     }
                 } while (exitSaveP != 1);
-                break;
                 break;
             default:
                 break;

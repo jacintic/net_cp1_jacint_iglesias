@@ -93,7 +93,7 @@ public class Product
             $"Product:" +
             $"\n\t.Name: {Name} " +
             $"\n\t.Weight: {Weight} " +
-            $"\n\t.Price: {Price}€" +
+            $"\n\t.Price: {Math.Round(Price, 2)}€" +
             $"\n\t.Stock: {Stock} " +
             $"\n\t.Cost: {Cost} " +
             $"\n\t.CreatedAt: {CreatedAt} " +

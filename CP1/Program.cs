@@ -294,6 +294,10 @@ void Menu()
         Console.WriteLine("8. Update a Product in the List");
         Console.WriteLine("9. Delete Product by Id");
         Console.WriteLine("10. Delete All Products");
+        Console.WriteLine("11. Sum all Product's prices");
+        Console.WriteLine("12. Sum all Gross benefit from Products (Price * Stock)");
+        Console.WriteLine("13. Sum Net benefit from Products ((Price - Cost) * Stock)");
+        Console.WriteLine("14. Show Product Prices + IVA (without altering the original Products or List)");
         Console.WriteLine("Write \"exit\" to exit");
         Option = Console.ReadLine();
         
@@ -750,6 +754,204 @@ void Menu()
                         Thread.Sleep(2000);
                     }
                 } while (exitDeleteAll != 1);
+                break;
+            case "11":
+                // Sum All Products Prices
+                int exitSumAllProds = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 11");
+                    Console.WriteLine("Sum all Products.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    try
+                    {
+
+                        Console.WriteLine("Total Prices added: " + productListRepository.SumAllPrices() + "€");
+                        exitSumAllProds = 1;
+                        try
+                        {
+                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.");
+                            string skip = Console.ReadLine();
+                            if (skip.ToLower().Equals("s"))
+                            {
+                                break;
+                            }
+                            Console.WriteLine(productListRepository.PrintAllProducts());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Thread.Sleep(3500);
+                        }
+
+                        exitDeleteAll = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitSumAllProds != 1);
+                break;
+            case "12":
+                // Sum All Products Gross Prices
+                int exitSumGrossAllProds = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 12");
+                    Console.WriteLine("Gross Sum of all Products.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    try
+                    {
+
+                        Console.WriteLine("Total Gross Prices added: " + productListRepository.SumGrossBenefit() + "€");
+                        exitSumGrossAllProds = 1;
+                        try
+                        {
+                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.");
+                            string skip = Console.ReadLine();
+                            if (skip.ToLower().Equals("s"))
+                            {
+                                break;
+                            }
+                            Console.WriteLine(productListRepository.PrintAllProducts());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Thread.Sleep(3500);
+                        }
+
+                        exitSumGrossAllProds = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitSumGrossAllProds != 1);
+                break;
+            case "13":
+                // Sum All Products Net Prices
+                int exitSumNetAllProds = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 13");
+                    Console.WriteLine("Net Sum of all Products.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    try
+                    {
+
+                        Console.WriteLine("Total Gross Prices added: " + productListRepository.SumNetBenefit() + "€");
+                        exitSumNetAllProds = 1;
+                        try
+                        {
+                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.");
+                            string skip = Console.ReadLine();
+                            if (skip.ToLower().Equals("s"))
+                            {
+                                break;
+                            }
+                            Console.WriteLine(productListRepository.PrintAllProducts());
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Thread.Sleep(3500);
+                        }
+
+                        exitSumGrossAllProds = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitSumNetAllProds != 1);
+                break;
+            case "14":
+                // Sum All Products Net Prices
+                int exitIvaProds = 0;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine("You chose option 14");
+                    Console.WriteLine("Products with their IVA shown and Passed by parameter.");
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    string temp = Console.ReadLine();
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        break;
+                    }
+                    try
+                    {
+                        int iva = 21;
+                        Console.WriteLine("Insert IVA (between 1-100). To skip this step press \"s\".");
+                        string ivaS = Console.ReadLine();
+                        Console.WriteLine("Printing all Products With IVA");
+                        if (!ivaS.ToLower().Equals("s"))
+                        {
+                            try
+                            {
+                                iva = int.Parse(ivaS);
+                                Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva(iva)));
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                        else 
+                        {
+                            try
+                            {
+                                Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva()));
+                                exitIvaProds = 1;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                Thread.Sleep(3500);
+                            }
+                        }
+                        Console.WriteLine("Printing all Products With IVA");
+
+
+                        exitIvaProds = 1;
+                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ReadLine();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Thread.Sleep(2000);
+                    }
+                } while (exitIvaProds != 1);
                 break;
             default:
                 break;

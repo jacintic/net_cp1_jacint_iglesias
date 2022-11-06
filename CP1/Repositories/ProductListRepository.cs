@@ -173,18 +173,9 @@ public class ProductListRepository : IProductRepository
 
     public bool AlreadyExists(Product product)
     {
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, product can't be duplicate.");
 
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, product can't be duplicate.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return false;
-        }
         foreach (Product p in products)
         {
             if (p.Equals(product))
@@ -196,48 +187,25 @@ public class ProductListRepository : IProductRepository
     public bool AlreadyExists(long id)
     {
         Product productTocheck = FindById(id);
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Lists is empty, product can't be duplicate.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return false;
-        }
+
+        if (Count() == 0)
+            throw new InvalidOperationException("Lists is empty, product can't be duplicate.");
+
         foreach (Product p in products)
-        {
             if (p.Equals(productTocheck))
                 return true;
-        }
         return false;
     }
 
     public double SumAllPrices()
     {
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("Products list Empty");
-        }
-        catch (InvalidOperationException ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-        try
-        {
-            double sum = 0;
-            foreach (Product product in products)
-                sum += product.GetPrice();
-            return sum;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("SumAllPrices Exception: " + ex.Message);
-        }
-        return 0;
+        if (Count() == 0)
+            throw new InvalidOperationException("Products list Empty");
+
+        double sum = 0;
+        foreach (Product product in products)
+            sum += product.GetPrice();
+        return sum;
     }
 
     public double SumGrossBenefit()

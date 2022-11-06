@@ -235,18 +235,12 @@ public class ProductListRepository : IProductRepository
         if (iva <= 0 || iva > 100)
             throw new InvalidOperationException("Iva is out of range");
         List<Product> productsPlusIva = new List<Product>();
-        foreach (Product product in products)
+        foreach (Product product in products) 
         {
-            Product p = new Product();
-            p.Name = product.Name;
-            p.Weight = product.Weight;
-            p.Stock = product.Stock;
-            p.Cost = product.Cost;
-            p.CreatedAt = product.CreatedAt;
-            p.manufacturer = product.manufacturer;
-            p.SetPrice(product.GetPrice() * (iva * 0.01 + 1));
-            productsPlusIva.Add(p);
-        }
+            Product clone = product.CreateDeepCopy(products);
+            clone.SetPrice(clone.GetPrice() * (iva * 0.01 + 1));
+            productsPlusIva.Add(clone);
+        }    
         return productsPlusIva;
     }
 

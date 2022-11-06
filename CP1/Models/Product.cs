@@ -1,13 +1,14 @@
-﻿using System;
+﻿using CP1.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace CP1.Models;
 
-public class Product
+public class Product : IPrototype<Product>
 {
     // Attributes
     private long Id = 1;
@@ -102,23 +103,22 @@ public class Product
 
     public override bool Equals(Object? prod)
     {
-        /*return prod is Product product &&
-               Id == product.GetId()
-               Name == product.Name &&
-               Weight == product.Weight &&
-               Price == product.Price &&
-               Stock == product.Stock &&
-               Cost == product.Cost &&
-               CreatedAt == product.CreatedAt &&
-               EqualityComparer<Manufacturer>.Default.Equals(manufacturer, product.manufacturer);*/
-        if ((prod == null) || !this.GetType().Equals(prod.GetType()))
+         if ((prod == null) || !this.GetType().Equals(prod.GetType()))
         {
             return false;
         }
         else
         {
             Product p = (Product)prod;
-            return p.GetId() == Id || p.Name == Name; //(x == p.x) && (y == p.y);
+            return p.GetId() == Id || p.Name == Name;
         }
+    }
+    public Product CreateDeepCopy(List<Product> products)
+    {
+        var product = (Product)MemberwiseClone();
+        product.Id = FindMaxId(products) + 1;
+        if (NextProductId == (Id - 1))
+            ++NextProductId;
+        return product;
     }
 }

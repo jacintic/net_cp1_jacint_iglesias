@@ -1131,7 +1131,9 @@ void Menu()
                         {
                             try
                             {
-                                Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva()));
+                                Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva()).ToString().BgColor(205, 205, 205));
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
                                 exitIvaProds = 1;
                             }
                             catch (Exception ex)
@@ -1162,6 +1164,44 @@ void Menu()
                     }
                 } while (exitIvaProds != 1);
                 break;
+            case "15":
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("You chose option 15");
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("Seeding Product List IF it is empty".Color(255, 255, 225).BgColor(77, 150, 77));
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Black;
+                try
+                {
+                    Console.WriteLine("Type letter \"e\" to go back to the main menu".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    string temp = Console.ReadLine();
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    if (temp.ToLower().Equals("e"))
+                    {
+                        backToMenu = 1;
+                        break;
+                    }
+                    if (productListRepository.Products.Count == 0)
+                        productListRepository.Products.AddRange(GenerateProductList());
+                    Console.WriteLine("Products seeded successfully".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Thread.Sleep(2000);
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine(ex);
+                    Thread.Sleep(2000);
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                    break;
+                // generate basic Product List
+                
             default:
                 break;
         }}
@@ -1261,6 +1301,8 @@ void MenuPainter()
     PrintRowII(tableWidth, "13", "Sum Net benefit from Products");
     PrintLine(tableWidth);
     PrintRowII(tableWidth, "14", "Show Product Prices + IVA");
+    PrintLine(tableWidth);
+    PrintRowII(tableWidth, "15", "Re-Seed Products (after del-all)");
     PrintLine(tableWidth);
     Console.WriteLine("         Write \"exit\" to exit".Color(255, 242, 0));
 }

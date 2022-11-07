@@ -310,10 +310,11 @@ void Menu()
     string Option = "";
     do
     {
-        //Console.BackgroundColor = ConsoleColor.DarkBlue;
+        Console.BackgroundColor = ConsoleColor.DarkGray;
         Console.Clear();
-        Console.WriteLine(text.Color(224, 184, 110));
+        Console.WriteLine(text.Color(84, 73, 97));
         MenuPainter();
+        Console.ForegroundColor = ConsoleColor.Black;
         Option = Console.ReadLine();
         
         switch (Option)
@@ -325,13 +326,20 @@ void Menu()
                 do
                 {
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("You chose option 1");
-                    Console.WriteLine("Write an number from 1-6 to use the FindById(id) method");
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine("Write an number from 1-6 to use the FindById(id) method".Color(255, 255, 225).BgColor(77, 150, 77));
                     try
                     {
-                        Console.WriteLine("Type letter \"e\" to go back to the main menu");
+                        Console.WriteLine("Type letter \"e\" to go back to the main menu".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         string temp = Console.ReadLine();
-                        if(temp.ToLower().Equals("e"))
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        if (temp.ToLower().Equals("e"))
                         {
                             backToMenu = 1;
                             break;
@@ -343,13 +351,17 @@ void Menu()
                     }
                     catch (InvalidOperationException ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
 
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine("ERROR: input can't be casted to int");
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
                     }
                     
@@ -357,32 +369,50 @@ void Menu()
                 try
                 {
                     if (backToMenu != 1)
-                        Console.Write(productListRepository.FindById(prId));
+                        Console.Write(productListRepository.FindById(prId).ToString().BgColor(205, 205, 205));
                 }
                 catch (Exception ex)
                 {
 
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine(ex.Message);
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 if (backToMenu != 1) 
                 {
-                    Console.WriteLine("Press any key to go back to the menu.");
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.ReadLine();
                 }  
                 break;
             case "2":
                 Console.Clear();
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+                Console.ForegroundColor = ConsoleColor.Black;
                 Console.WriteLine("You chose option 2");
-                Console.WriteLine("Printing List of Products now.");
+                Console.WriteLine("Printing List of Products now.".Color(255, 255, 225).BgColor(77, 150, 77));
+                Console.ForegroundColor = ConsoleColor.Black;
                 try
                 {
-                    Console.Write(productListRepository.PrintList(productListRepository.FindAll()));
-                    Console.WriteLine("Press any key to go back to the menu.");
-                    Console.ReadLine();
+                    Console.Write(productListRepository.PrintList(productListRepository.FindAll()).ToString().BgColor(205, 205, 205));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ReadLine().Color(0,0,0);
                 }
                 catch (Exception ex)
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine(ex.Message);
+                    Thread.Sleep(2500);
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 break;
             case "3":
@@ -393,8 +423,10 @@ void Menu()
                     double max = 0;
                     Console.Clear();
                     Console.WriteLine("You chose option 3");
-                    Console.WriteLine("Filter Products by minimum and maximum price.");
-                    Console.WriteLine("To go back to menu write \"e\".Else press any other key.");
+                    Console.WriteLine("Filter Products by minimum and maximum price.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\".Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
@@ -407,14 +439,18 @@ void Menu()
                     {
                         try
                         {
-                            Console.WriteLine("Introduce the minimum price using \".\" as decimal point.");
+                            Console.WriteLine("Introduce the minimum price using \".\" as decimal point.".Color(255, 255, 225).BgColor(77, 150, 77));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                             string minS = Console.ReadLine();
                             min = Double.Parse(minS);
                             conditionForMin = 1;
                         }
                         catch (Exception)
-                        { 
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("ERROR: the input can't be converted to decimal.");
+                            Console.ForegroundColor = ConsoleColor.Black;
                             Thread.Sleep(2000);
                         }
                         
@@ -423,7 +459,9 @@ void Menu()
                     {
                         try
                         {
-                            Console.WriteLine("Introduce the maximum price using \".\" as decimal point.");
+                            Console.WriteLine("Introduce the maximum price using \".\" as decimal point.".Color(255, 255, 225).BgColor(77, 150, 77));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                             string maxS = Console.ReadLine();
                             max = Double.Parse(maxS);
                             
@@ -431,21 +469,31 @@ void Menu()
                         }
                         catch (Exception)
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("ERROR: the input can't be converted to decimal.");
+                            Console.ForegroundColor = ConsoleColor.Black;
                             Thread.Sleep(2000);
                         }
 
                     } while (conditionForMax == 0);
                     try
                     {
-                        Console.Write(productListRepository.PrintList(productListRepository.FindByPriceRange(min,max)));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(productListRepository.PrintList(productListRepository.FindByPriceRange(min,max)).ToString().BgColor(205, 205, 205));
                         exitCondition2 = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
                     }
 
                     
@@ -456,18 +504,26 @@ void Menu()
                 int exitFilterDate = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 4");
-                    Console.WriteLine("Filter products before given Date.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Filter products before given Date.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
                         exitFilterDate = 1;
                         break;
                     }
-                    Console.WriteLine("Introduce the date in this format: yyyy-mm-dd-hh-mm.");
-                    Console.WriteLine("Hint: all products are created +60 -60 minutes from now's Date.");
+                    Console.WriteLine("Introduce the date in this format: yyyy-mm-dd-hh-mm.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("Hint: all products are created +60 -60 minutes from now's Date.".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     try
                     {
                         string myDate = Console.ReadLine();
@@ -477,17 +533,20 @@ void Menu()
                         int day = Int32.Parse(myDate.Substring(8, 2));
                         int hour = Int32.Parse(myDate.Substring(11, 2));
                         int minute = Int32.Parse(myDate.Substring(14, 2));
-                        //Console.WriteLine($"{year} {month} {day} {hour} {minute}");
-                        //Console.ReadLine();
-                        DateTime myDate2 = DateTime.Now;
-                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByDateBefore(new DateTime(year,month,day,hour,minute,00))));
+                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByDateBefore(new DateTime(year,month,day,hour,minute,00))).ToString().BgColor(205, 205, 205));
                         exitFilterDate = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("ERROR: Wrong format.");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("ERROR: Wrong format." + ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
                     }
                 } while (exitFilterDate != 1);
@@ -496,32 +555,40 @@ void Menu()
                 int exitFilterPName = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 6");
-                    Console.WriteLine("Filter by product name LIKE %name.ToLower()%.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Filter by product name LIKE %name.ToLower()%.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
                         exitFilterPName = 1;
                         break;
                     }
-                    Console.WriteLine("Introduce the name of the product.");
-                    Console.WriteLine("Hint: names like MSI, Asus, Macintosh, etc.");
+                    Console.WriteLine("Introduce the name of the product.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("Hint: names like MSI, Asus, Macintosh, etc.".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     try
                     {
 
                         // filter by name LIKE
                         string prodName = Console.ReadLine();
 
-                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike(prodName)));
+                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByNameLike(prodName)).ToString().BgColor(205, 205, 205));
                         exitFilterPName = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine("ERROR: Wrong format.");
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
                     }
                 } while (exitFilterPName != 1);
@@ -531,31 +598,39 @@ void Menu()
                 int exitFilterMName = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 5");
-                    Console.WriteLine("Filter by product's manufacturer name LIKE %name.ToLower()%.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Filter by product's manufacturer name LIKE %name.ToLower()%.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
                         break;
                     }
-                    Console.WriteLine("Introduce the name of the product' smanufacturer.");
-                    Console.WriteLine("Hint: names like MSI, Asus, Macintosh, etc.");
+                    Console.WriteLine("Introduce the name of the product' smanufacturer.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("Hint: names like MSI, Asus, Macintosh, etc.".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     try
                     {
 
                         // filter by name LIKE
                         string prodName = Console.ReadLine();
 
-                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike(prodName)));
+                        Console.WriteLine(productListRepository.PrintList(productListRepository.FindByManufacturerNameLike(prodName)).ToString().BgColor(205, 205, 205));
                         exitFilterMName = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
                     }
                 } while (exitFilterMName != 1);
@@ -568,20 +643,28 @@ void Menu()
                 int exitSaveP = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 7");
-                    Console.WriteLine("Save Product to List.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Save Product to List.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
                         break;
                     }
-                    Console.WriteLine("Introduce Parameters of the Product in the following format.");
+                    Console.WriteLine("Introduce Parameters of the Product in the following format.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("Name-Cost-Stock-Price-Manufacturer ");
-                    Console.WriteLine("Hint: manufacturers like \"msi\", \"mac\" or \"asus\"");
+                    Console.WriteLine("Hint: manufacturers like \"msi\", \"mac\" or \"asus\"".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("Hint: use coma \",\" to separate decimals instead of dot \".\"");
-                    Console.WriteLine("Format: Name-Cost-Stock-Price-Manufacturer ");
+                    Console.WriteLine("Format: Name-Cost-Stock-Price-Manufacturer".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     try
                     {
                         // Parsing Product's parameters
@@ -610,19 +693,23 @@ void Menu()
                         if (mf1 is null)
                         {
                             mf1 = new Manufacturer { Name = productParams[4]};
-                            Console.WriteLine("Manufacturer doesn't exist. Creating new Manufacturer: " + (manufacturerRepository.Save(mf1) ? "Manufacturer saved successfully" : "Error while saving new Manufacturer"));
+                            Console.WriteLine("Manufacturer doesn't exist. Creating new Manufacturer: ".ToString().BgColor(205, 205, 205) + (manufacturerRepository.Save(mf1) ? "Manufacturer saved successfully".ToString().BgColor(205, 205, 205) : "Error while saving new Manufacturer".ToString().BgColor(205, 205, 205)));
                         }
 
                         productListRepository.Save(productToSave, mf1);
-                        Console.WriteLine("Printing Saved Product:");
-                        Console.WriteLine(productListRepository.FindById(productToSave.GetId()));
+                        Console.WriteLine("Printing Saved Product:".ToString().BgColor(205, 205, 205));
+                        Console.WriteLine(productListRepository.FindById(productToSave.GetId()).ToString().BgColor(205, 205, 205));
                         exitSaveP = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
                     }
                 } while (exitSaveP != 1);
@@ -635,19 +722,25 @@ void Menu()
                 int exitUpdate = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 8");
-                    Console.WriteLine("Update Product from List.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Update Product from List.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
                         break;
                     }
-                    Console.WriteLine("Introduce Parameters of the Product (Name, Price and Id) in the following format.");
+                    Console.WriteLine("Introduce Parameters of the Product (Name, Price and Id) in the following format.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.WriteLine("Name-Price-Id");
                     Console.WriteLine("Hint: use coma \",\" to separate decimals instead of dot \".\"");
-                    Console.WriteLine("Format: Name-Price-Id ");
+                    Console.WriteLine("Format: Name-Price-Id ".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     try
                     {
                         // Parsing Product's parameters
@@ -661,14 +754,20 @@ void Menu()
                         long id = long.Parse(productParams[2]);
                         productListRepository.Update(productToUpdate, id);
                         Console.WriteLine("Printing Updated Product:");
-                        Console.WriteLine(productListRepository.FindById(id));
+                        Console.WriteLine(productListRepository.FindById(id).ToString().BgColor(205, 205, 205));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         exitUpdate = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black; 
                         Thread.Sleep(2000);
                     }
                 } while (exitUpdate != 1);
@@ -680,17 +779,25 @@ void Menu()
                 int exitDeleteId = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 9");
-                    Console.WriteLine("Delete Product from List.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Delete Product from List.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
                         break;
                     }
-                    Console.WriteLine("Introduce The Id of the Product");
-                    Console.WriteLine("Hint: safe Ids range from 1-6");
+                    Console.WriteLine("Introduce The Id of the Product".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("Hint: safe Ids range from 1-6".BgColor(173, 119, 38));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     long id = 0;
                     try
                     {
@@ -702,30 +809,43 @@ void Menu()
                         }
                         catch
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("ERROR: Id was inserted in wrong format");
+                            Console.ForegroundColor = ConsoleColor.Black;
                             Thread.Sleep(2000);
                             break;
                         }
 
-                        Console.WriteLine(productListRepository.Delete(id) ? "Product deleted successfully" : "Error while deleting Product");
+                        Console.WriteLine(productListRepository.Delete(id) ? "Product deleted successfully".ToString().BgColor(205, 205, 205) : "Error while deleting Product".ToString().BgColor(205, 205, 205));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.WriteLine("Checking product's Id on repo List:");
                         try
                         {
-                            Console.WriteLine(productListRepository.FindById(id));
+                            Console.WriteLine(productListRepository.FindById(id).ToString().BgColor(205, 205, 205));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                         }
                         catch (Exception ex)
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine(ex.Message);
+                            Console.ForegroundColor = ConsoleColor.Black; 
                             Thread.Sleep(3500);
                         }
 
                         exitDeleteId = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Thread.Sleep(2000);
                     }
                 } while (exitDeleteId != 1);
@@ -735,10 +855,14 @@ void Menu()
                 int exitDeleteAll = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 10");
-                    Console.WriteLine("Delete All Products from List.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Delete All Products from List.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
@@ -747,26 +871,34 @@ void Menu()
                     try
                     {
                         
-                        Console.WriteLine(productListRepository.DeleteAll() ? "Products deleted successfully" : "Error while deleting Products");
-                        Console.WriteLine("Checking product's on repo List:");
+                        Console.WriteLine(productListRepository.DeleteAll() ? "Products deleted successfully".ToString().BgColor(205, 205, 205) : "Error while deleting Products".ToString().BgColor(205, 205, 205));
+                        Console.WriteLine("Checking product's on repo List:".Color(255, 255, 225).BgColor(77, 150, 77));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         try
                         {
-                            Console.WriteLine(productListRepository.PrintAllProducts());
+                            Console.WriteLine(productListRepository.PrintAllProducts().ToString().BgColor(205, 205, 205));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                         }
                         catch (Exception ex)
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine(ex.Message);
-                            Thread.Sleep(3500);
+                            Console.ForegroundColor = ConsoleColor.Black; Thread.Sleep(3500);
                         }
 
                         exitDeleteAll = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
-                        Thread.Sleep(2000);
+                        Console.ForegroundColor = ConsoleColor.Black; Thread.Sleep(2000);
                     }
                 } while (exitDeleteAll != 1);
                 break;
@@ -775,10 +907,14 @@ void Menu()
                 int exitSumAllProds = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 11");
-                    Console.WriteLine("Sum all Products.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Sum all Products.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
@@ -787,7 +923,9 @@ void Menu()
                     try
                     {
 
-                        Console.WriteLine("Total Prices added: " + productListRepository.SumAllPrices() + "€");
+                        Console.WriteLine("Total Prices added: ".ToString().BgColor(205, 205, 205) + productListRepository.SumAllPrices().ToString().BgColor(205, 205, 205) + "€".ToString().BgColor(205, 205, 205));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         exitSumAllProds = 1;
                         try
                         {
@@ -797,22 +935,30 @@ void Menu()
                             {
                                 break;
                             }
-                            Console.WriteLine(productListRepository.PrintAllProducts());
+                            Console.WriteLine(productListRepository.PrintAllProducts().ToString().BgColor(205, 205, 205));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                         }
                         catch (Exception ex)
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine(ex.Message);
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                             Thread.Sleep(3500);
                         }
 
                         exitDeleteAll = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
-                        Thread.Sleep(2000);
+                        Console.ForegroundColor = ConsoleColor.Black; Thread.Sleep(2000);
                     }
                 } while (exitSumAllProds != 1);
                 break;
@@ -821,10 +967,14 @@ void Menu()
                 int exitSumGrossAllProds = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 12");
-                    Console.WriteLine("Gross Sum of all Products.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Gross Sum of all Products.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
@@ -833,31 +983,43 @@ void Menu()
                     try
                     {
 
-                        Console.WriteLine("Total Gross Prices added: " + productListRepository.SumGrossBenefit() + "€");
+                        Console.WriteLine("Total Gross Prices added: ".ToString().BgColor(205, 205, 205) + productListRepository.SumGrossBenefit().ToString().BgColor(205, 205, 205) + "€".ToString().BgColor(205, 205, 205));
                         exitSumGrossAllProds = 1;
                         try
                         {
-                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.");
+                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.".Color(255, 255, 225).BgColor(77, 150, 77));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                             string skip = Console.ReadLine();
                             if (skip.ToLower().Equals("s"))
                             {
                                 break;
                             }
-                            Console.WriteLine(productListRepository.PrintAllProducts());
+                            Console.WriteLine(productListRepository.PrintAllProducts().ToString().BgColor(205, 205, 205));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                         }
                         catch (Exception ex)
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine(ex.Message);
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                             Thread.Sleep(3500);
                         }
 
                         exitSumGrossAllProds = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Thread.Sleep(2000);
                     }
                 } while (exitSumGrossAllProds != 1);
@@ -867,10 +1029,14 @@ void Menu()
                 int exitSumNetAllProds = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 13");
-                    Console.WriteLine("Net Sum of all Products.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Net Sum of all Products.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
@@ -879,11 +1045,13 @@ void Menu()
                     try
                     {
 
-                        Console.WriteLine("Total Gross Prices added: " + productListRepository.SumNetBenefit() + "€");
+                        Console.WriteLine("Total Gross Prices added: ".ToString().BgColor(205, 205, 205) + productListRepository.SumNetBenefit().ToString().BgColor(205, 205, 205) + "€".ToString().BgColor(205, 205, 205));
                         exitSumNetAllProds = 1;
                         try
                         {
-                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.");
+                            Console.WriteLine("Press any key to Print All Products Now. Press \"s\" to skip this step.".Color(255, 255, 225).BgColor(77, 150, 77));
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
                             string skip = Console.ReadLine();
                             if (skip.ToLower().Equals("s"))
                             {
@@ -893,17 +1061,23 @@ void Menu()
                         }
                         catch (Exception ex)
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine(ex.Message);
+                            Console.ForegroundColor = ConsoleColor.Black;
                             Thread.Sleep(3500);
                         }
 
                         exitSumGrossAllProds = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
                         Thread.Sleep(2000);
                     }
                 } while (exitSumNetAllProds != 1);
@@ -913,10 +1087,14 @@ void Menu()
                 int exitIvaProds = 0;
                 do
                 {
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     Console.Clear();
                     Console.WriteLine("You chose option 14");
-                    Console.WriteLine("Products with their IVA shown and Passed by parameter.");
-                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.");
+                    Console.WriteLine("Products with their IVA shown and Passed by parameter.".Color(255, 255, 225).BgColor(77, 150, 77));
+                    Console.WriteLine("To go back to menu write \"e\". Else press any other key.".Color(255, 255, 225).BgColor(77, 77, 220));
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
                     string temp = Console.ReadLine();
                     if (temp.ToLower().Equals("e"))
                     {
@@ -925,7 +1103,9 @@ void Menu()
                     try
                     {
                         int iva = 21;
-                        Console.WriteLine("Insert IVA (between 1-100). To skip this step press \"s\".");
+                        Console.WriteLine("Insert IVA (between 1-100). To skip this step press \"s\".".Color(255, 255, 225).BgColor(77, 150, 77));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         string ivaS = Console.ReadLine();
                         Console.WriteLine("Printing all Products With IVA");
                         if (!ivaS.ToLower().Equals("s"))
@@ -933,12 +1113,18 @@ void Menu()
                             try
                             {
                                 iva = int.Parse(ivaS);
-                                Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva(iva)));
-
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
+                                Console.WriteLine(productListRepository.PrintList(productListRepository.ProductsIva(iva)).ToString().BgColor(205, 205, 205));
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
                             }
                             catch (Exception ex)
                             {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine(ex.Message);
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
                             }
                         }
                         else 
@@ -950,7 +1136,10 @@ void Menu()
                             }
                             catch (Exception ex)
                             {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine(ex.Message);
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
                                 Thread.Sleep(3500);
                             }
                         }
@@ -958,12 +1147,17 @@ void Menu()
 
 
                         exitIvaProds = 1;
-                        Console.WriteLine("Press any key to go back to the menu.");
+                        Console.WriteLine("Press any key to go back to the menu.".Color(255, 255, 225).BgColor(77, 77, 220));
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ReadLine();
                     }
                     catch (Exception ex)
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(ex.Message);
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
                         Thread.Sleep(2000);
                     }
                 } while (exitIvaProds != 1);
@@ -1075,18 +1269,18 @@ void MenuPainter()
 static void PrintLine(int tableWidth)
 {
     string space = new string(' ', 9);
-    Console.WriteLine(space + new string('═', tableWidth).Color(27, 12, 82));
+    Console.WriteLine(space + new string('═', tableWidth).Color(84, 73, 97));
 }
 
 static void PrintRow(int tableWidth, params string[] columns)
 {
     string space = new string(' ', 9);
     int width = (tableWidth - columns.Length) / columns.Length;
-    string row = space + "║".Color(27, 12, 82);
+    string row = space + "║".Color(84, 73, 97);
 
     foreach (string column in columns)
     {
-        row += AlignCentre(column, width - 1).Color(112, 174, 212) + "║".Color(27, 12, 82);
+        row += AlignCentre(column, width - 1).Color(0,0,0) + "║".Color(84, 73, 97);
     }
 
     Console.WriteLine(row);
@@ -1108,15 +1302,15 @@ static void PrintRowII(int tableWidth, params string[] columns)
     {
         if (i == 0)
         {
-            Console.Write(space + "║".Color(27, 12, 82));
+            Console.Write(space + "║".Color(84, 73, 97));
         }
         else if (i == 1) {
-            Console.Write(myRows[i].Color(0, 229, 255));
-            Console.Write("║".Color(27, 12, 82));
+            Console.Write(myRows[i].Color(0,0,0));
+            Console.Write("║".Color(84, 73, 97));
         }
         else if (i == 2) {
             Console.Write(myRows[i]);
-            Console.Write("║".Color(27, 12, 82));
+            Console.Write("║".Color(84, 73, 97));
         }
     }
     Console.WriteLine();

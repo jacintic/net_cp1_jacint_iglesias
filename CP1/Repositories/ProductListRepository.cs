@@ -251,32 +251,15 @@ public class ProductListRepository : IProductRepository
     }
     public string PrintAllProducts()
     {
-        try
-        {
-            if (Count() == 0)
-                throw new InvalidOperationException("List empty. Can't print list");
-        }
-        catch (InvalidOperationException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return null;
-        }
+        if (Count() == 0)
+            throw new InvalidOperationException("List empty. Can't print list");
         return String.Join(" ", products);
     }
 
     public string PrintList(List<Product> list)
     {
-        try
-        {
-            if (Count() == 0 || list.Count() == 0)
-                throw new InvalidOperationException("0 Elements. Lists is empty.");
-        }
-        catch (InvalidOperationException e)
-        {
-            Console.WriteLine("Invalid Operation Exception:");
-            Console.WriteLine(e.Message);
-            return null;
-        }
+        if (Count() == 0 || list.Count() == 0)
+            throw new InvalidOperationException("0 Elements. Lists is empty.");
         return "Printing List: \n" + String.Join(" ", list);
     }
 }
